@@ -46,7 +46,7 @@
                                 <!-- <option>-Select-</option> -->
                             </select>
                           </div>
-                          <button type="submit" class="btn btn-success float-right">Search 🔍</button>
+                          <button type="submit" class="btn btn-success float-right">Search</button>
                      </form>
                  </div>
              </div>
@@ -109,18 +109,17 @@
                             <td>  </td>
                             {% endfor %}     
                     </tr>
-                    <tr style="background-color: skyblue">      
-                       <th>
-                           Markup Rate(in %) :
-                           <input id="mrk" type="number" size="30" value="{{item.markup}}">
-                        </th>  
-                       {% for i in items %}
-                       <td>  </td>
-                       {% endfor %}
-               </tr>
+                    <tr style="background-color: rgb(34, 247, 97);">      
+                        <th>
+                            Markup Rate(in %) :
+                            <input id="mrk" type="number" size="30" value="{{item.markup}}">
+                         </th>  
+                        {% for i in items %}
+                        <td>  </td>
+                        {% endfor %}
+                    </tr>
                     {% for opt in options%}
-                   {% if item.sku == opt.sku %}
-   
+                    {% if item.sku == opt.sku %}
                     <tr class="optval">
                        <th scope="row">{{opt}} : <input type="text" step="0.01" value="{{opt.optionvalue}}" size="3" class="optcls">
                            <select name="option"  width="3" class="ddlopt" id="opt{{opt.id}}">
