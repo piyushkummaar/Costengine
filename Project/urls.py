@@ -26,8 +26,6 @@ urlpatterns = [
     path('subcat',subcat),
     path('productname', productname),
     path('productget', productget),
-    path('t', table)
-
 ]
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

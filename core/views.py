@@ -5,8 +5,9 @@ from django.core import serializers
 # Create your views here.
 def home(request):
     if request.method == 'POST':
-        sku = 'LTCD2S'  
-        if sku == 'LTCD2S':
+        region = request.POST.get('region','')
+        sku = request.POST.get('sku','')
+        if region == 'Domestic':
             reg = Region.objects.all()
             prodata = DomesticProduct.objects.filter(sku=sku)
             for i in prodata:
@@ -14,7 +15,7 @@ def home(request):
                 val = AddDomesticItem.objects.all().filter(product_id=i.id)
             options = ProductOption.objects.all().filter(sku__icontains=sku)    
             return render(request, 'index.html',{'reg':reg,'prodata':prodata,'options':options,'items':items,'val':val})
-        elif sku == 'LCDHT':
+        elif region == 'Imports':
             improdata = ImportsProduct.objects.filter(sku=sku)
             for i in improdata:
                 items = AddImportsItem.objects.all().filter(product_id=i.id)
@@ -97,22 +98,3 @@ def productget(request):
     template_name = 'index.html'
     context = {'reg':reg}
     return render(request,template_name,context)
-
-def table(request):
-    sku = 'LTCD2S'  
-    if sku == 'LTCD2S':
-        reg = Region.objects.all()
-        prodata = DomesticProduct.objects.filter(sku=sku)
-        for i in prodata:
-            items = AddDomesticItem.objects.all().filter(product_id=i.id)
-            val = AddDomesticItem.objects.all().filter(product_id=i.id)
-        options = ProductOption.objects.all().filter(sku__icontains=sku)    
-        return render(request, 'index.html',{'reg':reg,'prodata':prodata,'options':options,'items':items,'val':val})
-    elif sku == 'LCDHT':
-        improdata = ImportsProduct.objects.filter(sku=sku)
-        for i in improdata:
-            items = AddImportsItem.objects.all().filter(product_id=i.id)
-            val = AddImportsItem.objects.all().filter(product_id=i.id)
-        options = ProductOption.objects.all().filter(sku__icontains=sku)
-        addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
-        return render(request, 'index.html',{'improdata':improdata,'options':options,'addoptions':addoptions,'items':items,'val':val})
