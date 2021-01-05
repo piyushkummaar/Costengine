@@ -59,9 +59,10 @@ def productget(request):
             for i in prodata:
                 items = AddDomesticItem.objects.all().filter(product_id=i.id)
                 val = AddDomesticItem.objects.all().filter(product_id=i.id)
-            options = ProductOption.objects.all().filter(sku__icontains=sku)
-            print({'prodata':prodata,'options':options,'items':items,'val':val})    
+            options = ProductOption.objects.all().filter(sku__icontains=sku) 
             return render(request, 'index.html',{'prodata':prodata,'options':options,'items':items,'val':val})
+
+            
         elif region == 'Imports':
             improdata = ImportsProduct.objects.filter(sku=sku)
             for i in improdata:
