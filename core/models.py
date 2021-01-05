@@ -88,9 +88,8 @@ class AddDomesticItem(models.Model):
                 productcost = self.price + i.productcostc 
                 self.productcost = round(productcost, 2)
             if i.targetgrossprofit:
-                Baseproductsalesprice = self.productcost * ( 1 - (i.targetgrossprofit/100) ) 
+                Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) ) 
                 self.baseproductsalesprice = round(Baseproductsalesprice, 2)
-                # print(Baseproductsalesprice)
         super(AddDomesticItem, self).save(*args, **kwargs)
    class Meta:
         verbose_name = 'Domestic Item'
