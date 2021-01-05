@@ -53,12 +53,14 @@ def productget(request):
     if request.is_ajax and request.method == 'POST':
         region = request.POST.get('region', '')
         sku = request.POST.get('sku','')
+        print(region," ::::::: ",sku)
         if region == 'Domestic': 
             prodata = DomesticProduct.objects.filter(sku=sku)
             for i in prodata:
                 items = AddDomesticItem.objects.all().filter(product_id=i.id)
                 val = AddDomesticItem.objects.all().filter(product_id=i.id)
-            options = ProductOption.objects.all().filter(sku__icontains=sku)    
+            options = ProductOption.objects.all().filter(sku__icontains=sku)
+            print({'prodata':prodata,'options':options,'items':items,'val':val})    
             return render(request, 'index.html',{'prodata':prodata,'options':options,'items':items,'val':val})
         elif region == 'Imports':
             improdata = ImportsProduct.objects.filter(sku=sku)
@@ -68,16 +70,21 @@ def productget(request):
             options = ProductOption.objects.all().filter(sku__icontains=sku)
             addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
             return render(request, 'index.html',{'improdata':improdata,'options':options,'addoptions':addoptions,'items':items,'val':val})
+    reg = Region.objects.all()
+    template_name = 'index.html'
+    context = {'reg':reg}
+    return render(request,template_name,context)
 
 def table(request):
     sku = 'LTCD2S'  
     if sku == 'LTCD2S':
+        reg = Region.objects.all()
         prodata = DomesticProduct.objects.filter(sku=sku)
         for i in prodata:
             items = AddDomesticItem.objects.all().filter(product_id=i.id)
             val = AddDomesticItem.objects.all().filter(product_id=i.id)
         options = ProductOption.objects.all().filter(sku__icontains=sku)    
-        return render(request, 'index.html',{'prodata':prodata,'options':options,'items':items,'val':val})
+        return render(request, 'index.html',{'reg':reg,'prodata':prodata,'options':options,'items':items,'val':val})
     elif sku == 'LCDHT':
         improdata = ImportsProduct.objects.filter(sku=sku)
         for i in improdata:

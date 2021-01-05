@@ -58,7 +58,7 @@
                     <strong class="text-primary">{{ item.productname }}</strong>
                 </h1>
             </div>
-            <div class="table-responsive table-striped">
+            <div class="table-responsive table-striped" id="tableaagyga">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -481,7 +481,7 @@
         $('#ddlpro').change(function () {  
         var region = $('#sel1').val()
         var sku = $('#ddlpro').val();
-        alert(sku);
+        console.log('outside');
         $.ajax({
             type: 'POST',
             url: '/productget',
@@ -491,10 +491,18 @@
             csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             dataType:'json',
-            success: function(data) {
-                console.log(data);
-            }
+            // success: function(data,response) {
+            //     console.log(sku);
+            //     $('#tableaagyga').html(response);
+            //     console.log(response);
+            // }
+            success: function (textStatus, status) {
+                console.log('inside');
+            console.log(textStatus);
+            console.log(status);
+            },
         });
+        console.log('sss');
         return false;
         });
     </script>
