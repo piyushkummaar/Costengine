@@ -21,7 +21,7 @@ var id = $(this).closest('td').attr('id');
 var value = $(this).val();
 var nid =  id.split('u')[1]
 var chg_val = $('#pc'+nid).html(); 
-var set_val = chg_val*(1-(value/100)); 
+var set_val = chg_val/(1-(value/100)); 
 $('#bcp'+nid).html(set_val.toFixed(2));
 for (i = 0; i < $('#pcc').children().length; i++) {
 calc_total(i);
