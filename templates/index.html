@@ -17,7 +17,7 @@
         <h1 class="text-center">Cost Engine</h1>
          <div class="card">
              <div class="card-body">
-                     <form id='myform' action="" method="post">
+                     <form id='myform' action="{% url 'home' %}" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="sel1">Region</label>
@@ -46,6 +46,7 @@
                                 <!-- <option>-Select-</option> -->
                             </select>
                           </div>
+                          <button type="submit" class="btn btn-success float-right">Search 🔍</button>
                      </form>
                  </div>
              </div>
@@ -405,7 +406,7 @@
         var id = $(this).children(":selected").attr("id");
         $.ajax({
             type: 'POST',
-            url: '/',
+            url: '/main',
             data: {
             'value': id,
             csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -496,13 +497,11 @@
             //     $('#tableaagyga').html(response);
             //     console.log(response);
             // }
-            success: function (textStatus, status) {
+            success: function (data) {
                 console.log('inside');
-            console.log(textStatus);
-            console.log(status);
+                console.log(data);
             },
         });
-        console.log('sss');
         return false;
         });
     </script>
