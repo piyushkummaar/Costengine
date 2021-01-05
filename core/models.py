@@ -144,15 +144,15 @@ class AddImportsItem(models.Model):
         data = ImportsProduct.objects.all()
         for i in data:
             if i.setupfee :
-                imsetupfee = i.setupfee/self.price  
+                imsetupfee = ((i.setupfee/i.quantity)/self.price)  
                 self.setupfee = round(imsetupfee, 2)
-                self.productcost = round((self.price + i.setupfee),2)
+                self.productcost = round((self.price + (i.setupfee/i.quantity)),2)
             if i.duty:
                 self.duty = round(((i.duty/100) * self.productcost),2)
             if i.markup:
                 self.markup = round((self.duty * (i.markup/100)),2)  
             if i.targetgrossprofit:
-                Baseproductsalesprice = self.productcost * ( 1 - (i.targetgrossprofit/100) ) 
+                Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) ) 
                 self.baseproductsalesprice = round(Baseproductsalesprice, 2)
             # if i.frieghtvalue:
             #     self.freightadmin = self.freight * (i.frieghtvalue/100)
