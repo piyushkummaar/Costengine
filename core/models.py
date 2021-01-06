@@ -144,9 +144,9 @@ class AddImportsItem(models.Model):
         data = ImportsProduct.objects.all()
         for i in data:
             if i.setupfee :
-                imsetupfee = ((i.setupfee/i.quantity)/self.price)  
+                imsetupfee = ((i.setupfee/self.quantity)/self.price)  
                 self.setupfee = round(imsetupfee, 2)
-                self.productcost = round((self.price + (i.setupfee/i.quantity)),2)
+                self.productcost = round((self.price + (i.setupfee/self.quantity)),2)
             if i.duty:
                 self.duty = round(((i.duty/100) * self.productcost),2)
             if i.markup:
