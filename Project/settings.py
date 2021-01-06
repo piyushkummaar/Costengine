@@ -82,13 +82,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
         'NAME': 'costengine',
-        'HOST': '198.71.225.145',
         'USER': 'perry',
         'PASSWORD': 'sa@12345',
+        'HOST': '198.71.225.145',
+        'PORT': '1433',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
-        }
-    }
+            'isolation_level': 'READ UNCOMMITTED',  # prevent SELECT deadlocks
+        },
+    },
 }
 
 # Password validation
