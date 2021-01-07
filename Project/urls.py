@@ -22,10 +22,9 @@ from core.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home,name='home'),
-    path('main', main,name='main'),
-    path('subcat',subcat),
-    path('productname', productname),
-    path('productget', productget),
+    path('main/', main,name='main'),
+    path('subcat/',subcat),
+    path('productname/', productname)
 ]
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

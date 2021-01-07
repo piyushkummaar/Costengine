@@ -2,30 +2,34 @@ from django.shortcuts import render,redirect
 from .models import *
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
-# Create your views here.
+
 def home(request):
+    reg = Region.objects.all()
+    template_name = 'index.html'
     if request.method == 'POST':
         region = request.POST.get('region','')
         sku = request.POST.get('sku','')
+        test = None
         if region == 'Domestic':
-            reg = Region.objects.all()
             prodata = DomesticProduct.objects.filter(sku=sku)
             for i in prodata:
                 items = AddDomesticItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
                 val = AddDomesticItem.objects.all().filter(product_id=i.id)
             options = ProductOption.objects.all().filter(sku__icontains=sku)    
-            return render(request, 'index.html',{'reg':reg,'prodata':prodata,'options':options,'items':items,'val':val})
+            return render(request, template_name,{'reg':reg,'test':th,'prodata':prodata,'options':options,'items':items,'val':val})
         elif region == 'Imports':
             improdata = ImportsProduct.objects.filter(sku=sku)
             for i in improdata:
                 items = AddImportsItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
                 val = AddImportsItem.objects.all().filter(product_id=i.id)
             options = ProductOption.objects.all().filter(sku__icontains=sku)
             addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
-            return render(request, 'index.html',{'improdata':improdata,'options':options,'addoptions':addoptions,'items':items,'val':val})
-
-    reg = Region.objects.all()
-    template_name = 'index.html'
+            return render(request, template_name,{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
+    
     context = {'reg':reg}
     return render(request,template_name,context)
 
@@ -69,27 +73,4 @@ def productname(request):
             data["val"+str(count)] = i.productname +">>"+i.sku 
             count += 1
         return JsonResponse({"data": data}, status=200) 
-
-def productget(request):
-    if request.is_ajax and request.method == 'POST':
-        region = request.POST.get('region', '')
-        sku = request.POST.get('sku','')
-        if region == 'Domestic': 
-            prodata = DomesticProduct.objects.filter(sku=sku)
-            for i in prodata:
-                items = AddDomesticItem.objects.all().filter(product_id=i.id)
-                val = AddDomesticItem.objects.all().filter(product_id=i.id)
-            options = ProductOption.objects.all().filter(sku__icontains=sku)
-            return render(request, 'index.html',{'prodata':prodata,'options':options,'items':items,'val':val})
-        elif region == 'Imports':
-            improdata = ImportsProduct.objects.filter(sku=sku)
-            for i in improdata:
-                items = AddImportsItem.objects.all().filter(product_id=i.id)
-                val = AddImportsItem.objects.all().filter(product_id=i.id)
-            options = ProductOption.objects.all().filter(sku__icontains=sku)
-            addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
-            return render(request, 'index.html',{'improdata':improdata,'options':options,'addoptions':addoptions,'items':items,'val':val})
-    reg = Region.objects.all()
-    template_name = 'index.html'
-    context = {'reg':reg}
-    return render(request,template_name,context)
+    
