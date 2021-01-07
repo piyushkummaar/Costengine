@@ -24,8 +24,7 @@ urlpatterns = [
     path('', home,name='home'),
     path('main/', main,name='main'),
     path('subcat/',subcat),
-    path('productname/', productname),
-    path('temp',get_template,name='temp')
+    path('productname/', productname)
 ]
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
