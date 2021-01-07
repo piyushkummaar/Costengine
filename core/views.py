@@ -9,7 +9,7 @@ def home(request):
     if request.method == 'POST':
         region = request.POST.get('region','')
         sku = request.POST.get('sku','')
-        test = None
+        test,th = None, None
         if region == 'Domestic':
             prodata = DomesticProduct.objects.filter(sku=sku)
             for i in prodata:
@@ -73,4 +73,34 @@ def productname(request):
             data["val"+str(count)] = i.productname +">>"+i.sku 
             count += 1
         return JsonResponse({"data": data}, status=200) 
-    
+
+def get_template(request):
+    reg = Region.objects.all()
+    template_name = 'main.html'
+    context = {'reg':reg}
+    th = None
+    items = None
+    val = None
+    if request.method == 'POST':
+        region = request.POST.get('region','')
+        sku = request.POST.get('sku','')
+        if region == 'Domestic':
+            prodata = DomesticProduct.objects.filter(sku=sku)
+            for i in prodata:
+                items = AddDomesticItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
+                val = AddDomesticItem.objects.all().filter(product_id=i.id)
+            options = ProductOption.objects.all().filter(sku__icontains=sku)    
+            return render(request, template_name,{'reg':reg,'test':th,'prodata':prodata,'options':options,'items':items,'val':val})
+        elif region == 'Imports':
+            improdata = ImportsProduct.objects.filter(sku=sku)
+            for i in improdata:
+                items = AddImportsItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
+                val = AddImportsItem.objects.all().filter(product_id=i.id)
+            options = ProductOption.objects.all().filter(sku__icontains=sku)
+            addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
+            return render(request, template_name,{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
+    return render(request,template_name,context)
