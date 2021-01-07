@@ -40,7 +40,7 @@ def main(request):
         data = {}
         count = 1
         for i in cat:
-            data["val"+str(count)] = i.category
+            data["val"+str(count)] = i.category +">>"+str(i.id)
             count += 1
         return JsonResponse({"data": data}, status=200)
 
@@ -49,24 +49,27 @@ def subcat(request):
     if request.is_ajax and request.method == 'POST':
         subca =  request.POST.get('value', '')
         region = request.POST.get('region', '')
-        if region == 'Domestic': 
-            subcat = SubCategory.objects.filter(region_id=1)
-        else:
-            subcat = SubCategory.objects.filter(region_id=2)
+        if region == 'Domestic':
+            subcat = SubCategory.objects.filter(region_id=1,category_id=subca)
+        elif region == 'Imports':
+            subcat = SubCategory.objects.filter(region_id=2,category_id=subca)
         data = {}
         count = 1
         for i in subcat:
-            data["val"+str(count)] = i.subcategory
+            data["val"+str(count)] = i.subcategory +">>"+str(i.id)+">>"+str(i.category.id)
             count += 1
         return JsonResponse({"data": data}, status=200)
 
 def productname(request):
     if request.is_ajax and request.method == 'POST':
+        seprate =  request.POST.get('value', '')
         region = request.POST.get('region', '')
+        subid = seprate.split('>')[0]
+        catid = seprate.split('>')[1]
         if region == 'Domestic': 
-            prodata = DomesticProduct.objects.filter(region_id=1)
+            prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid,subcatagory_id=subid)
         elif region == 'Imports':
-            prodata = ImportsProduct.objects.filter(region_id=2)
+            prodata = ImportsProduct.objects.filter(region_id=2,category_id=catid,subcatagory_id=subid)
         data = {}
         count = 1
         for i in prodata:

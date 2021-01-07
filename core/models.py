@@ -91,6 +91,7 @@ class AddDomesticItem(models.Model):
                 Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) ) 
                 self.baseproductsalesprice = round(Baseproductsalesprice, 2)
         super(AddDomesticItem, self).save(*args, **kwargs)
+        
    class Meta:
         verbose_name = 'Domestic Item'
         verbose_name_plural = 'Domestic Items'

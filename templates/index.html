@@ -398,7 +398,7 @@
         function myFunction() {
         $("#myDIV").toggle();
         }
-         $("#sel1").change(function() {
+        $("#sel1").mouseup(function() {
         var item=$(this);
         var id = $(this).children(":selected").attr("id");
         $.ajax({
@@ -409,7 +409,7 @@
             csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             dataType:'json',
-            success: function(data) {
+            success: function(data) {;
                 $.each(data, function (key, entry) {
                     var cat=$('#ddlcat');
                     var subcat = $('#ddlsubcat');
@@ -420,9 +420,11 @@
                     var part = $('#ddlcat');
                     part.empty().append($('<option></option>').val('').text('--Select--'));
                     $.each(entry, function (index, item) {
-                        part.append($('<option></option>').val(item).text(item));
-                    
+                        var newitem = item.split('>>')[0]
+                        var skunum = item.split('>>')[1]
+                        part.append($('<option></option>').val(skunum).text(newitem));
                     });
+
                 });
             }
         });
@@ -445,7 +447,11 @@
                     var part = $('#ddlsubcat');
                     part.empty().append($('<option></option>').val('').text('--Select--'));
                     $.each(entry, function (index, item) {
-                        part.append($('<option></option>').val(item).text(item));
+                        var newitem = item.split('>>')[0]
+                        var subnum = item.split('>>')[1]
+                        var catnum = item.split('>>')[2]
+                        seprate = subnum +">"+catnum
+                        part.append($('<option></option>').val(seprate).text(newitem));
                     });
                 });
             }
@@ -454,11 +460,14 @@
         });
         $("#sel3").change(function() {
         var region = $('#sel1').val()
+        var value = $('#ddlsubcat').val()
+
         $.ajax({
             type: 'POST',
             url: '/productname/',
             data: {
             'region':region,
+            'value':value,
             csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             dataType:'json',

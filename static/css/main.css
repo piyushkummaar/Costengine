@@ -345,7 +345,32 @@ textarea.input100 {
   transform: translateX(10px);
 }
 
-
+.bg-colorwant{
+  background: #a64bf4;
+  background: -webkit-linear-gradient(left, #fc00ff, #00dbde, #fc00ff, #00dbde);
+  background: -o-linear-gradient(left, #00dbde, #fc00ff, #00dbde, #fc00ff);
+  background: -moz-linear-gradient(left, #00dbde, #fc00ff, #00dbde, #fc00ff);
+  background: linear-gradient(left, #00dbde, #fc00ff, #00dbde, #fc00ff);
+  top: 0;
+  left: -100%;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.markk{
+  background: #bb3abd;
+  background: -webkit-linear-gradient(left, #05fbff, #fa8ffc, #00dbde, #9c369e);
+  background: -o-linear-gradient(left,  #05fbff, #fa8ffc, #00dbde, #9c369e);
+  background: -moz-linear-gradient(left,  #05fbff, #fa8ffc, #00dbde, #9c369e);
+  background: linear-gradient(left,  #05fbff, #fa8ffc, #00dbde, #9c369e);
+  top: 0;
+  left: -100%;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
 /*------------------------------------------------------------------
 [ Responsive ]*/
 

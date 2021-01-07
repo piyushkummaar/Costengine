@@ -4,8 +4,7 @@ from .models import *
 
 
 class ProductInline(admin.TabularInline):
-    model = AddDomesticItem
-
+    model = AddDomesticItem 
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["sku","productname","category","subcatagory"]
@@ -13,16 +12,17 @@ class ProductAdmin(admin.ModelAdmin):
         ProductInline, 
     ]
 
-
 class ProductInlineImports(admin.TabularInline):
     model = AddImportsItem
+    
 
 class ProductAdminImports(admin.ModelAdmin):
     list_display = ["sku","productname","category","subcatagory"]
     inlines = [
         ProductInlineImports, 
     ]
-    
+
+
 admin.site.register(DomesticProduct,ProductAdmin)
 admin.site.register(Category)
 admin.site.register(SubCategory)
