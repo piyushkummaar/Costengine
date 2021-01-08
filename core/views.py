@@ -69,7 +69,7 @@ def productname(request):
         if region == 'Domestic': 
             prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid,subcatagory_id=subid)
         elif region == 'Imports':
-            prodata = ImportsProduct.objects.filter(region_id=2,category_id=catid,subcatagory_id=subid)
+            prodata = ImportsProduct.objects.filter(category_id=catid,subcatagory_id=subid)
         data = {}
         count = 1
         for i in prodata:
