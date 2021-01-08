@@ -4,6 +4,10 @@ from django.http import JsonResponse,HttpResponse
 from django.core import serializers
 
 def home(request):
+    '''
+        Home view
+        display the a table
+    '''
     reg = Region.objects.all()
     template_name = 'index.html'
     if request.method == 'POST':
