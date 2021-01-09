@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'jquery.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
@@ -23,7 +24,7 @@
                             <label for="sel1">Region</label>
                             <select class="form-control" id="sel1" name="region">
                               <option>--Select--</option>
-                              {% for data in reg %} 
+                              {% for data in reg %}
                               <option id="{{ data.id }}">{{ data }}</option>
                               {% endfor %}
                             </select>
@@ -64,55 +65,55 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Item Number</th>
-                            <th scope="col">{{ item.sku }}</th>   
+                            <th scope="col">{{ item.sku }}</th>
                             {% for i in test %}
-                            <th scope="col"></th> 
+                            <th scope="col"></th>
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <tr>      
+                            <tr>
                             <th scope="row">Quantities</th>
                             {% for i in items %}
                             <td> {{i.quantity}} </td>
                             {% endfor %}
                         </tr>
-                        <tr>  
+                        <tr>
                             <th scope="row">Fixed Cost</th>
                             {% for i in items %}
                             <td> {{i.price}} </td>
                             {% endfor %}
                         </tr>
-                            <tr style="background-color: rgb(142, 253, 253);" id='pcc'>      
+                            <tr style="background-color: rgb(142, 253, 253);" id='pcc'>
                             <th scope="row">Product Cost C$</th>
                             {% for i in items %}
                             <td> {{i.productcost}} </td>
                             {% endfor %}
                         </tr>
-                            <tr id='inp'>      
+                            <tr id='inp'>
                             <th scope="row">Target Gross Profit(in%)</th>
                             {% for i in items %}
                             <td><input type="text" value="{{ item.targetgrossprofit }}" class="tgp" size="5"></td>
                             {% endfor %}
                             </tr>
-                            <tr style="background-color: rgb(142, 253, 253);" id='bcps'>      
+                            <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
                             <th scope="row">Base Product Sales Price C$</th>
                             {% for i in items %}
                             <td> {{i.baseproductsalesprice}} </td>
                             {% endfor %}
                         </tr>
-                        <tr style="background-color: yellow">      
+                        <tr style="background-color: yellow">
                             <th>Options</th>
                             {% for i in items %}
                             <td>  </td>
-                            {% endfor %}     
+                            {% endfor %}
                     </tr>
-                    <tr style="background-color: rgb(34, 247, 97);">      
+                    <tr style="background-color: rgb(34, 247, 97);">
                         <th>
                             Markup Rate(in %) :
                             <input id="mrk" type="number" size="30" value="{{item.markup}}">
-                         </th>  
+                         </th>
                         {% for i in items %}
                         <td>  </td>
                         {% endfor %}
@@ -175,92 +176,92 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Item Number</th>
-                        <th scope="col">{{ imd.sku }}</th>   
+                        <th scope="col">{{ imd.sku }}</th>
                         {% for i in test %}
-                        <th scope="col"></th> 
+                        <th scope="col"></th>
                         {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <tr>      
+                        <tr>
                         <th scope="row">Quantities</th>
                         {% for i in items %}
                         <td> {{i.quantity}} </td>
                         {% endfor %}
                     </tr>
-                    <tr>  
+                    <tr>
                         <th scope="row">Factory Cost</th>
                         {% for i in items %}
                         <td> {{i.price}} </td>
                         {% endfor %}
                     </tr>
-                    <tr>      
+                    <tr>
                         <th scope="row">Setup Fee</th>
                         {% for i in items %}
                         <td> {{i.setupfee}} </td>
                         {% endfor %}
                         </tr>
-                        <tr style="background-color: rgb(142, 253, 253);" id='pcc'>      
+                        <tr style="background-color: rgb(142, 253, 253);" id='pcc'>
                         <th scope="row">Product Cost C$</th>
                         {% for i in items %}
                         <td> {{i.productcost}} </td>
                         {% endfor %}
                     </tr>
-                        <tr id='inp'>      
+                        <tr id='inp'>
                         <th scope="row">Target Gross Profit(in%)</th>
                         {% for i in items %}
                         <td><input type="text" value="{{ imd.targetgrossprofit }}" class="tgp" size="5"></td>
                         {% endfor %}
                         </tr>
-                        <tr style="background-color: rgb(142, 253, 253);" id='bcps'>      
+                        <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
                         <th scope="row">Base Product Sales Price C$</th>
                         {% for i in items %}
                         <td> {{i.baseproductsalesprice}} </td>
                         {% endfor %}
-                    </tr>   
-                    <tr>      
+                    </tr>
+                    <tr>
                         <th scope="row">Freight / Unit</th>
                         {% for i in items %}
                         <td> {{i.freight}} </td>
                         {% endfor %}
                     </tr>
-                    <tr>      
+                    <tr>
                         <th scope="row">Freight Mark-Up/ Unit</th>
                         {% for i in items %}
                         <td> {{i.freightadmin}} </td>
                         {% endfor %}
                     </tr>
-                    <tr style="background-color: rgb(142, 253, 253);">      
+                    <tr style="background-color: rgb(142, 253, 253);">
                         <th scope="row" >Total Freight U$</th>
                         {% for i in items %}
                         <td> {{i.totalfrieght}} </td>
                         {% endfor %}
                     </tr>
-                    <tr>      
-                        <th scope="row" >Duty (in %) : 
+                    <tr>
+                        <th scope="row" >Duty (in %) :
                             <input type="number" size="30" value="{{imd.duty}}">
                         </th>
                         {% for i in items %}
                         <td> {{i.duty}} </td>
                         {% endfor %}
                     </tr>
-                    <tr>      
-                        <th scope="row" >Mark-Up (in %) :    
+                    <tr>
+                        <th scope="row" >Mark-Up (in %) :
                        <input type="number" size="30" value="{{imd.markup}}">
                         </th>
                         {% for i in items %}
                         <td> {{i.markup}} </td>
                         {% endfor %}
                     </tr>
-                    <tr style="background-color: rgb(142, 253, 253);">      
+                    <tr style="background-color: rgb(142, 253, 253);">
                         <th scope="row" >Net Duty U$
                         </th>
                         {% for i in items %}
                         <td> {{i.netduty}} </td>
                         {% endfor %}
                     </tr>
-                    <tr style="background-color: rgb(34, 247, 97);">      
+                    <tr style="background-color: rgb(34, 247, 97);">
                         <th scope="row">Sub Total</th>
                         {% for i in items %}
                         <td> {{i.subtotal}} </td>
@@ -272,17 +273,17 @@
                         <td>  </td>
                         {% endfor %}
                     </tr>
-                    <tr style="background-color: yellow">      
+                    <tr style="background-color: yellow">
                         <th>Options</th>
                         {% for i in items %}
                         <td>  </td>
-                        {% endfor %}     
+                        {% endfor %}
                 </tr>
-                <tr style="background-color: skyblue">      
+                <tr style="background-color: skyblue">
                    <th>
                        Markup Rate(in %) :
                        <input id="mrk" type="number" size="30" value="{{imd.markuprate}}">
-                    </th>  
+                    </th>
                    {% for i in items %}
                    <td>  </td>
                    {% endfor %}
@@ -335,54 +336,54 @@
             </tr>
             {% endif %}
             {% endfor %}
-            <tr style="background-color: skyblue">      
-                <th> Total Sales Price Net Unit U$ </th>  
+            <tr style="background-color: skyblue">
+                <th> Total Sales Price Net Unit U$ </th>
                 {% for i in items %}
                 <td> 0 </td>
                 {% endfor %}
         </tr>
-        <tr>      
+        <tr>
             <th>
                 Forex :
                 <input  type="number" size="30" value="{{imd.forex}}">
-             </th>  
+             </th>
             {% for i in items %}
             <td> {{i.forex}} </td>
             {% endfor %}
     </tr>
-    <tr style="background-color: skyblue">      
-        <th> Total Sales Price Net Unit C$ </th>  
+    <tr style="background-color: skyblue">
+        <th> Total Sales Price Net Unit C$ </th>
         {% for i in items %}
         <td> 0 </td>
         {% endfor %}
 </tr>
-    <tr>      
-        <th>Flyer Price(C)</th>  
+    <tr>
+        <th>Flyer Price(C)</th>
         {% for i in items %}
         <td> 0 </td>
         {% endfor %}
 </tr>
-<tr>      
-    <th>Flyer Price(R)</th>  
+<tr>
+    <th>Flyer Price(R)</th>
     {% for i in items %}
     <td> 0 </td>
     {% endfor %}
 </tr>
-<tr>     
-    <th></th> 
+<tr>
+    <th></th>
     {% for i in items %}
     <td>  </td>
     {% endfor %}
 </tr>
 
-<tr>      
-    <th>Overall GrossMargin$ (In USD)</th>  
+<tr>
+    <th>Overall GrossMargin$ (In USD)</th>
     {% for i in items %}
     <td> 0 </td>
     {% endfor %}
 </tr>
-<tr>      
-    <th>Overall GrossMargin$ (In %)</th>  
+<tr>
+    <th>Overall GrossMargin$ (In %)</th>
     {% for i in items %}
     <td> 0 </td>
     {% endfor %}
@@ -391,7 +392,7 @@
             </table>
         </div>
         {% endfor %}
-        {% endif%} 
+        {% endif%}
 
      </div>
      <script>
@@ -428,7 +429,7 @@
                 });
             }
         });
-        return false;     
+        return false;
         });
         $("#sel2").change(function() {
         var item=$('#ddlcat').val();
@@ -456,7 +457,7 @@
                 });
             }
         });
-        return false; 
+        return false;
         });
         $("#sel3").change(function() {
         var region = $('#sel1').val()
