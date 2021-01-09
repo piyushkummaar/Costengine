@@ -21,7 +21,7 @@ def home(request):
                 test = len(items) - 1
                 th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
                 val = AddDomesticItem.objects.all().filter(product_id=i.id)
-            options = ProductOption.objects.all().filter(sku__icontains=sku)    
+            options = ProductOption.objects.all().filter(sku__icontains=sku)
             return render(request, template_name,{'reg':reg,'test':th,'prodata':prodata,'options':options,'items':items,'val':val})
         elif region == 'Imports':
             improdata = ImportsProduct.objects.filter(sku=sku)
@@ -33,7 +33,7 @@ def home(request):
             options = ProductOption.objects.all().filter(sku__icontains=sku)
             addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
             return render(request, template_name,{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
-    
+
     context = {'reg':reg}
     return render(request,template_name,context)
 
@@ -70,13 +70,13 @@ def productname(request):
         region = request.POST.get('region', '')
         subid = seprate.split('>')[0]
         catid = seprate.split('>')[1]
-        if region == 'Domestic': 
+        if region == 'Domestic':
             prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid,subcatagory_id=subid)
         elif region == 'Imports':
             prodata = ImportsProduct.objects.filter(category_id=catid,subcatagory_id=subid)
         data = {}
         count = 1
         for i in prodata:
-            data["val"+str(count)] = i.productname +">>"+i.sku 
+            data["val"+str(count)] = i.productname +">>"+i.sku
             count += 1
-        return JsonResponse({"data": data}, status=200) 
+        return JsonResponse({"data": data}, status=200)

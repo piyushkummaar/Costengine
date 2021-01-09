@@ -7,10 +7,6 @@
     <title>Home | Cost Engine</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{% static 'jquery.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -395,11 +391,11 @@
         {% endif%}
 
      </div>
+    <script src="{% static 'jquery.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
      <script>
-        function myFunction() {
-        $("#myDIV").toggle();
-        }
-        $("#sel1").mouseup(function() {
+        $("#sel1").change(function() {
         var item=$(this);
         var id = $(this).children(":selected").attr("id");
         $.ajax({
@@ -486,6 +482,10 @@
         });
         return false;
         });
+
+        function myFunction() {
+        $("#myDIV").toggle();
+        }
     </script>
     <script src="{% static 'main.js' %}"></script>
 </body>
