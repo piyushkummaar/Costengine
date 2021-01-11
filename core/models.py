@@ -1,4 +1,8 @@
 from django.db import models
+from django.db.models.signals import pre_save,post_save
+from django.dispatch import receiver
+
+
 
 class Region(models.Model):
     region = models.CharField(max_length=250, blank=True, null=True)
@@ -68,6 +72,7 @@ class DomesticProduct(models.Model):
     def __str__(self):
         return self.sku
 
+
     class Meta:
         verbose_name = 'Domestic Product'
         verbose_name_plural = 'Domestic Products'
@@ -75,13 +80,13 @@ class DomesticProduct(models.Model):
         managed = True
 
 class AddDomesticItem(models.Model):
-   product = models.ForeignKey(DomesticProduct, on_delete=models.CASCADE)
-   quantity = models.IntegerField()
-   price = models.FloatField()
-   productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)
-   baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)
-   
-   def save(self, *args, **kwargs):
+    product = models.ForeignKey(DomesticProduct, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    price = models.FloatField()
+    productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)
+    baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)
+
+    def save(self, *args, **kwargs):
         data = DomesticProduct.objects.all()
         for i in data:
             if i.productcostc :
@@ -91,8 +96,27 @@ class AddDomesticItem(models.Model):
                 Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) ) 
                 self.baseproductsalesprice = round(Baseproductsalesprice, 2)
         super(AddDomesticItem, self).save(*args, **kwargs)
-        
-   class Meta:
+
+    @receiver(post_save, sender=DomesticProduct)
+    def my_handler(sender,instance, **kwargs):
+        data = DomesticProduct.objects.filter(sku=instance)
+        for i in data:
+            add = AddDomesticItem.objects.all().filter(product_id=i.id)
+            for j in add:
+                productcost = ''
+                if i.productcostc :
+                    productcost = j.price + i.productcostc 
+                    productcost = round(productcost, 2)
+                    print(f"{j.price} + {i.productcostc} = {productcost}")
+                    # AddDomesticItem.objects.update(productcost = productcost) 
+                if i.targetgrossprofit:
+                    Baseproductsalesprice = i.productcostc / ( 1 - (i.targetgrossprofit/100) ) 
+                    baseproductsalesprice = round(Baseproductsalesprice, 2)
+                    AddDomesticItem.objects.update(baseproductsalesprice = baseproductsalesprice)
+                    # print(f"{i.productcostc} / ( 1 - ({i.targetgrossprofit}/100) ) = {baseproductsalesprice}")
+
+            
+    class Meta:
         verbose_name = 'Domestic Item'
         verbose_name_plural = 'Domestic Items'
         db_table = 'tbl_domesticitems'
@@ -126,22 +150,22 @@ class ImportsProduct(models.Model):
         managed = True
 
 class AddImportsItem(models.Model):
-   product = models.ForeignKey(ImportsProduct, on_delete=models.CASCADE)
-   quantity = models.IntegerField()
-   price = models.FloatField()
-   freight = models.FloatField(verbose_name = "Frieght UNIT",help_text="Enter the Freight values",null=True,blank=True)
-   freightadmin = models.FloatField(verbose_name = "Frieght Admin/UNIT",help_text="Enter the Freight Admin values",null=True,blank=True)
-   setupfee = models.FloatField(verbose_name = "Setup Fee",null=True,blank=True)
-   productcost = models.FloatField(verbose_name = "Product Cost U$",null=True,blank=True)
-   baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price U$",null=True,blank=True)
-   totalfrieght = models.FloatField(verbose_name = "Total Frieght",null=True,blank=True)
-   duty = models.FloatField(verbose_name = "Duty (in %)",null=True,blank=True)
-   markup = models.FloatField(verbose_name = "Markup",null=True,blank=True)
-   netduty = models.FloatField(verbose_name = "Net Duty U$",null=True,blank=True)
-   subtotal = models.FloatField(verbose_name = "Sub Total",null=True,blank=True)
-   forex = models.FloatField(verbose_name = "Forex",null=True,blank=True)
+    product = models.ForeignKey(ImportsProduct, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    price = models.FloatField()
+    freight = models.FloatField(verbose_name = "Frieght UNIT",help_text="Enter the Freight values",null=True,blank=True)
+    freightadmin = models.FloatField(verbose_name = "Frieght Admin/UNIT",help_text="Enter the Freight Admin values",null=True,blank=True)
+    setupfee = models.FloatField(verbose_name = "Setup Fee",null=True,blank=True)
+    productcost = models.FloatField(verbose_name = "Product Cost U$",null=True,blank=True)
+    baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price U$",null=True,blank=True)
+    totalfrieght = models.FloatField(verbose_name = "Total Frieght",null=True,blank=True)
+    duty = models.FloatField(verbose_name = "Duty (in %)",null=True,blank=True)
+    markup = models.FloatField(verbose_name = "Markup",null=True,blank=True)
+    netduty = models.FloatField(verbose_name = "Net Duty U$",null=True,blank=True)
+    subtotal = models.FloatField(verbose_name = "Sub Total",null=True,blank=True)
+    forex = models.FloatField(verbose_name = "Forex",null=True,blank=True)
 
-   def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         data = ImportsProduct.objects.all()
         for i in data:
             if i.setupfee :
@@ -154,14 +178,27 @@ class AddImportsItem(models.Model):
                 self.markup = round((self.duty * (i.markup/100)),2)  
             if i.targetgrossprofit:
                 Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) ) 
-                self.baseproductsalesprice = round(Baseproductsalesprice, 2)
-            # if i.frieghtvalue:
-            #     self.freightadmin = self.freight * (i.frieghtvalue/100)
-        # self.netduty = self.duty + self.markup
-        # self.subtotal = self.baseproductsalesprice + self.totalfrieght + self.netduty      
+                self.baseproductsalesprice = round(Baseproductsalesprice, 2)    
         super(AddImportsItem, self).save(*args, **kwargs)
 
-   class Meta:
+    @receiver(pre_save, sender=ImportsProduct)
+    def addvalues(sender,instance, **kwargs):
+        data = ImportsProduct.objects.filter(sku=instance)
+        for i in data:
+            imdata = AddImportsItem.objects.filter(product_id=i.id)
+            netinsert = ""
+            for j in imdata:
+                netduty = j.duty + j.markup
+                netinsert = netduty
+                AddImportsItem.objects.update(netduty=netduty) 
+                # subtotal = j.baseproductsalesprice + j.totalfrieght + j.netduty
+                
+            
+                # AddImportsItem.objects.update(subtotal=subtotal)
+                # if i.frieghtvalue:
+                    # print(f"{i.frieghtvalue} = {i.freight} * ({i.frieghtvalue}/100")
+            
+    class Meta:
         verbose_name = 'Imports Item'
         verbose_name_plural = 'Imports Items'
         db_table = 'tbl_importsitems'
