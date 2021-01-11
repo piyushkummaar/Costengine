@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center">
+  <h1>Cost Engine</h1>
+  <p>All calculation done here with Domestic and Non Domestic Products!</p> 
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                    <form id="myform" method="POST">
+                        <div class="col-md-12 mx-auto">
+                          <div class="form-group reg">
+                            {% csrf_token %}
+                            <label for="exampleFormControlSelect1">Region</label>
+                            <select class="form-control" id="sel1"> 
+                              <option>--Select--</option>
+                              {% for i in r%}
+                              <option>{{ i.region_name }}</option>
+                              {% endfor %}
+                            </select>
+                            <div class="form-group cat">
+                              <label for="exampleFormControlSelect1">Category</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                              <option>--Select--</option>
+                              {% for i in cat%}
+                              <option>{{ i.category_name }}</option>
+                              {% endfor %}
+                            </select>
+                            </div>
+                            <div class="form-group cat">
+                              <label for="exampleFormControlSelect1">Sub Category</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                              <option>--Select--</option>
+                              {% for i in subcat %}
+                              <option>{{ i.subcategory_name }}</option>
+                              {% endfor %}
+                            </select>
+                            </div>
+                            <div class="form-group cat">
+                              <label for="exampleFormControlSelect1">Sub Category</label>
+                            <select class="form-control" id="Select1">
+                              <option>--Select--</option>
+                              {% for i in subsubcat%}
+                              <option>{{ i.subsubcategory_name }}</option>
+                              {% endfor %}
+                            </select>
+                            </div>
+                          </div>
+                          <div class="text-right">
+                            <button id="target" class='btn btn-success pull-right' type="submit">Search</button>
+                          </div>
+                        </div>
+                      </form>
+            </div>
+          </div>
+          </div>
+          </div>
+          <br>
+          
+          <div id="table" class="table">
+            {% for i in pro %}
+            <h3 class="text-center text-primary bold" id='h3'>{{ i.product_name }}</h3>
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th>Item Number</th>
+                  {% for j in i.quantities.all%}
+                  <th>{{ i.sku }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <tr>      
+                      <th scope="row" style="background-color: rgb(255, 0, 0);">Quantities</th>
+                      {% for i in i.quantities.all.filter %}
+                        {%if i > 100%}
+                        <td>{{i}}</td>
+                        {%else%}
+                        <td>{{ i }}</td>
+                        {%endif%}
+                  {% endfor %}
+              </tr>
+              <tr>    
+                      <th scope="row">Fixed Cost</th>
+                      {% for i in i.price.all %}
+                      <td>{{ i }}</td>
+                  {% endfor %}
+              </tr>
+                  <tr style="background-color: rgb(142, 253, 253);" id="pcc">      
+                      <th  scope="row">Product Cost C$</th>
+                      {% for i in i.price.all %}
+                      <td class="pc"> {{ i }} </td>
+                  {% endfor %}
+                      <!-- <td> 1.60 </td>
+                      <td> 1.61 </td>
+                      <td> 3.88 </td>
+                      <td> 4.26 </td> -->
+              </tr>
+                  <tr>      
+                      <th scope="row">Target Gross Profit( in %)</th>
+                      {% for i in i.price.all %}
+                      <td><input type="text" value="33%" class="tgp"></td>
+                  {% endfor %}
+              </tr>
+                  <tr style="background-color: rgb(142, 253, 253);">      
+                      <th scope="row">Base Product Sales Price C$</th>
+                      {% for i in i.price.all %}
+                      <td> - </td>
+                  {% endfor %}
+              </tr>
+              <tr style="background-color: yellow">      
+                  <th>Options</th>
+                  {% for i in i.price.all %}
+                  <td></td>
+                  {% endfor %}
+          </tr>
+          <tr>      
+            <th>Total Sales Price</th>
+            {% for i in i.price.all %}
+            <td></td>
+            {% endfor %}
+    </tr>
+    <tr style="background-color: rgb(142, 253, 253);">      
+      <th>Flyer Price</th>
+      {% for i in i.price.all %}
+      <td></td>
+      {% endfor %}
+</tr>
+              </tbody>
+            </table> 
+            {% endfor %}
+
+
+          
+            </div>
+</div>
+<br>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<div class="container mt-5">
+   <div class="col-md-6 mx-auto">
+    <div class="card">
+        <div class="card-body">
+            
+                <form id='myform' action="" method="get">
+                    {{ filter.form|bootstrap }}
+                    <button id="target" class='btn btn-success float-right' type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<div id='table' class="container mt-5">
+    {% for data in filter.qs %}
+    <div class="text-center mx-auto">
+        <h1 style="text-align:center;">
+            <strong class="text-primary">{{ data.product_name }}</strong>
+        </h1>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Item Number</th>
+                    <th scope="col">{{ data.sku }}</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <tr>      
+                    <th scope="row" style="background-color: rgb(255, 0, 0);">Quantities</th>
+                    {% for i in data.quantities.all %}
+                    <td>{{ i }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>  
+                    <th scope="row">Fixed Cost</th>
+                    {% for i in data.price.all %}
+                    <td>{{ i }}</td>
+                    {% endfor %}
+                </tr>
+                    <tr style="background-color: rgb(142, 253, 253);">      
+                    <th scope="row">Product Cost C$</th>
+                    {% for i in data.price.all %}
+                    <td> - </td>
+                    {% endfor %}
+                </tr>
+                    <tr>      
+                    <th scope="row">Target Gross Profit( in %)</th>
+                    {% for i in data.price.all %}
+                    <td><input type="text" value="33"></td>
+                    {% endfor %}
+                </tr>
+                    <tr style="background-color: rgb(142, 253, 253);">      
+                    <th scope="row">Base Product Sales Price C$</th>
+                    {% for i in data.price.all %}
+                    <td> - </td>
+                    {% endfor %}
+                </tr>
+                <tr style="background-color: yellow">      
+                    <th></th>
+                    {% for i in data.price.all %}
+                    <td></td>
+                    {% endfor %}
+            </tr>
+            </tbody>
+        </table>  
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+</div>
+
+{% endblock %}
