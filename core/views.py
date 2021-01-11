@@ -9,37 +9,33 @@ def home(request):
         Home view
         display the a table
     '''
-    try:
-        reg = Region.objects.all()
-        template_name = 'index.html'
-        if request.method == 'POST':
-            if form.is_valid():
-                region = request.POST.get('region','')
-                sku = request.POST.get('sku','')
-                test,th = None, None
-                if region == 'Domestic':
-                    prodata = DomesticProduct.objects.filter(sku=sku)
-                    for i in prodata:
-                        items = AddDomesticItem.objects.all().filter(product_id=i.id)
-                        test = len(items) - 1
-                        th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
-                        val = AddDomesticItem.objects.all().filter(product_id=i.id)
-                    options = ProductOption.objects.all().filter(sku__icontains=sku)
-                    return render(request, template_name,{'reg':reg,'test':th,'prodata':prodata,'options':options,'items':items,'val':val})
-                elif region == 'Imports':
-                    improdata = ImportsProduct.objects.filter(sku=sku)
-                    for i in improdata:
-                        items = AddImportsItem.objects.all().filter(product_id=i.id)
-                        test = len(items) - 1
-                        th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
-                        val = AddImportsItem.objects.all().filter(product_id=i.id)
-                    options = ProductOption.objects.all().filter(sku__icontains=sku)
-                    addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
-                    return render(request, template_name,{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
-        except:
-            raise Http404("Product does not exist")
-        context = {'reg':reg}
-        return render(request,template_name,context)
+    reg = Region.objects.all()
+    template_name = 'index.html'
+    if request.method == 'POST':
+        region = request.POST.get('region','')
+        sku = request.POST.get('sku','')
+        test,th = None, None
+        if region == 'Domestic':
+            prodata = DomesticProduct.objects.filter(sku=sku)
+            for i in prodata:
+                items = AddDomesticItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
+                val = AddDomesticItem.objects.all().filter(product_id=i.id)
+            options = ProductOption.objects.all().filter(sku__icontains=sku)
+            return render(request, template_name,{'reg':reg,'test':th,'prodata':prodata,'options':options,'items':items,'val':val})
+        elif region == 'Imports':
+            improdata = ImportsProduct.objects.filter(sku=sku)
+            for i in improdata:
+                items = AddImportsItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
+                val = AddImportsItem.objects.all().filter(product_id=i.id)
+            options = ProductOption.objects.all().filter(sku__icontains=sku)
+            addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
+            return render(request, template_name,{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
+    context = {'reg':reg}
+    return render(request,template_name,context)
 
 def main(request):
     if request.is_ajax and request.method == 'POST':
