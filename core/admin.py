@@ -4,31 +4,45 @@ from .models import *
 
 
 class ProductInline(admin.TabularInline):
-    model = AddDomesticItem 
+    model = AddDomesticItem
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["sku","productname","category","subcatagory"]
     inlines = [
-        ProductInline, 
+        ProductInline,
     ]
 
 class ProductInlineImports(admin.TabularInline):
     model = AddImportsItem
-    
+
 
 class ProductAdminImports(admin.ModelAdmin):
     list_display = ["sku","productname","category","subcatagory"]
     inlines = [
-        ProductInlineImports, 
+        ProductInlineImports,
     ]
 
+@admin.register(ProductOption)
+class ProductOptionAdmin(admin.ModelAdmin):
+    list_display = ["optionname","optionvalue","sku","markuprate"]
+
+@admin.register(AdditionalOption)
+class AdditionalOptionAdmin(admin.ModelAdmin):
+    list_display = ["optionname","optionvalue","sku","markuprate"]
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ["category","region"]
+
+@admin.register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
+    list_display = ["subcategory","category","region"]
+
+@admin.register(SubSubCategory)
+class SubSubCategoryAdmin(admin.ModelAdmin):
+    list_display = ["subsubcategory","subcategory","category","region"]
 
 admin.site.register(DomesticProduct,ProductAdmin)
-admin.site.register(Category)
-admin.site.register(SubCategory)
-admin.site.register(SubSubCategory)
-admin.site.register(ProductOption)
-admin.site.register(AdditionalOption)
 admin.site.register(Region)
 admin.site.register(ImportsProduct,ProductAdminImports)
 admin.site.site_header = "Admin Dashboard"
