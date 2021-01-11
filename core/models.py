@@ -181,16 +181,16 @@ class AddImportsItem(models.Model):
                 self.baseproductsalesprice = round(Baseproductsalesprice, 2)    
         super(AddImportsItem, self).save(*args, **kwargs)
 
-    @receiver(pre_save, sender=ImportsProduct)
-    def addvalues(sender,instance, **kwargs):
-        data = ImportsProduct.objects.filter(sku=instance)
-        for i in data:
-            imdata = AddImportsItem.objects.filter(product_id=i.id)
-            netinsert = ""
-            for j in imdata:
-                netduty = j.duty + j.markup
-                netinsert = netduty
-                AddImportsItem.objects.update(netduty=netduty) 
+    # @receiver(pre_save, sender=ImportsProduct)
+    # def addvalues(sender,instance, **kwargs):
+    #     data = ImportsProduct.objects.filter(sku=instance)
+    #     for i in data:
+    #         imdata = AddImportsItem.objects.filter(product_id=i.id)
+    #         netinsert = ""
+    #         for j in imdata:
+    #             netduty = j.duty + j.markup
+    #             netinsert = netduty
+    #             AddImportsItem.objects.update(netduty=netduty) 
                 # subtotal = j.baseproductsalesprice + j.totalfrieght + j.netduty
                 
             
