@@ -117,7 +117,7 @@
                     {% for opt in options%}
                     {% if item.sku == opt.sku %}
                     <tr class="optval">
-                       <th scope="row">{{opt}} : <input type="text" step="0.01" value="{{opt.optionvalue}}" size="3" class="optcls">
+                       <th scope="row">{{opt}} : <input type="number" step="0.01" value="{{opt.optionvalue}}" size="3" class="optcls">
                            <select name="option"  width="3" class="ddlopt" id="opt{{opt.id}}">
                                <option value="N">No</option>
                                <option value="Y">Yes</option>
@@ -207,7 +207,7 @@
                         <tr id='inp'>
                         <th scope="row">Target Gross Profit(in%)</th>
                         {% for i in items %}
-                        <td><input type="text" value="{{ imd.targetgrossprofit }}" class="tgp" size="5"></td>
+                        <td><input type="number" value="{{ imd.targetgrossprofit }}" class="tgp" size="5"></td>
                         {% endfor %}
                         </tr>
                         <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
@@ -288,7 +288,7 @@
            {% if imd.sku == opt.sku %}
            <tr style="background-color: skyblue">
             <tr class="optval">
-                <th scope="row">{{opt}} : <input type="text" step="0.01" value="{{opt.optionvalue}}" size="3" class="optcls">
+                <th scope="row">{{opt}} : <input type="number" step="0.01" value="{{opt.optionvalue}}" size="3" class="optcls">
                     <select name="option"  width="3" class="ddlopt" id="opt{{opt.id}}">
                         <option value="N">No</option>
                         <option value="Y">Yes</option>
@@ -323,7 +323,7 @@
            {% if imd.sku == addopt.sku %}
            <tr style="background-color: skyblue">
             <tr class="optval" id="myDIV">
-                <th scope="row">{{addopt}} : <input type="text" step="0.01" value="{{addopt.optionvalue}}" size="3" class="optcls">
+                <th scope="row">{{addopt}} : <input type="number" step="0.01" value="{{addopt.optionvalue}}" size="3" class="optcls">
                 </th>
                 {% for i in items %}
                 <td class="tdopt"> 0 </td>
@@ -512,13 +512,13 @@
     var value = $(this).val();
 
     var nid =  id.split('u')[1]
-    var chg_val = $('#pc'+nid).html(); 
+    var chg_val = $('#pc'+nid).html();
     if (value==100){
         set_val = chg_val/(1-(value/100));
         $('#bcp'+nid).html('0.00');
     }
     else{
-        var set_val = chg_val/(1-(value/100)); 
+        var set_val = chg_val/(1-(value/100));
         $('#bcp'+nid).html(set_val.toFixed(2));
     }
     for (i = 0; i < $('#pcc').children().length; i++) {
@@ -550,7 +550,7 @@
         }
     });
     });
-        
+
     $('.optcls').change(function(){
     var parent = $(this).closest('tr');
         var inpval=$(this).val();
@@ -615,6 +615,6 @@
 
     });
     </script>
- 
+
 </body>
 </html>
