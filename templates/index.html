@@ -108,7 +108,7 @@
                     <tr style="background-color: rgb(34, 247, 97);">
                         <th>
                             Markup Rate(in %) :
-                            <input id="mrk" type="number" size="30" value="{{item.markup}}">
+                            <input id="mrk" type="number" size="5" value="{{item.markup}}">
                          </th>
                         {% for i in items %}
                         <td>  </td>
@@ -117,7 +117,7 @@
                     {% for opt in options%}
                     {% if item.sku == opt.sku %}
                     <tr class="optval">
-                       <th scope="row">{{opt}} : <input type="number" step="0.01" value="{{opt.optionvalue}}" size="3" class="optcls">
+                       <th scope="row">{{opt}} : <input type="number" value="{{opt.optionvalue}}" class="optcls" style="width:60px"/>
                            <select name="option"  width="3" class="ddlopt" id="opt{{opt.id}}">
                                <option value="N">No</option>
                                <option value="Y">Yes</option>
@@ -207,7 +207,7 @@
                         <tr id='inp'>
                         <th scope="row">Target Gross Profit(in%)</th>
                         {% for i in items %}
-                        <td><input type="number" value="{{ imd.targetgrossprofit }}" class="tgp" size="5"></td>
+                        <td><input type="number" value="{{ imd.targetgrossprofit }}" class="tgp" style="width:60px"></td>
                         {% endfor %}
                         </tr>
                         <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
@@ -288,7 +288,7 @@
            {% if imd.sku == opt.sku %}
            <tr style="background-color: skyblue">
             <tr class="optval">
-                <th scope="row">{{opt}} : <input type="number" step="0.01" value="{{opt.optionvalue}}" size="3" class="optcls">
+                <th scope="row">{{opt}} : <input type="number" step="0.01" value="{{opt.optionvalue}}" class="optcls" style="width:60px"/>
                     <select name="option"  width="3" class="ddlopt" id="opt{{opt.id}}">
                         <option value="N">No</option>
                         <option value="Y">Yes</option>
