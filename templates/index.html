@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | Cost Engine</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
@@ -90,7 +90,9 @@
                             <tr id='inp'>
                             <th scope="row">Target Gross Profit(in%)</th>
                             {% for i in items %}
-                            <td><input type="text" value="{{ item.targetgrossprofit }}" class="tgp" size="5"></td>
+                            <td><input class="tgp" type="number" min="0" max="100" step="5" value="{{ item.targetgrossprofit }}"></td>
+
+                            <!--<td><input type="number" min="0" max="100" step="5" value="{{ item.targetgrossprofit }}" class="tgp" size="5"></td>-->
                             {% endfor %}
                             </tr>
                             <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
@@ -108,7 +110,7 @@
                     <tr style="background-color: rgb(34, 247, 97);">
                         <th>
                             Markup Rate(in %) :
-                            <input id="mrk" type="number" size="30" value="{{item.markup}}">
+                            <input id="mrk" min="0" max="100" step="5" type="number" size="30" value="{{item.markup}}">
                          </th>
                         {% for i in items %}
                         <td>  </td>
@@ -207,7 +209,7 @@
                         <tr id='inp'>
                         <th scope="row">Target Gross Profit(in%)</th>
                         {% for i in items %}
-                        <td><input type="text" value="{{ imd.targetgrossprofit }}" class="tgp" size="5"></td>
+                        <td><input type="text" min="0" max="100" value="{{ imd.targetgrossprofit }}" class="tgp" size="5"></td>
                         {% endfor %}
                         </tr>
                         <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
@@ -392,8 +394,10 @@
 
      </div>
     <script src="{% static 'jquery.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
      <script>
         $("#sel1").change(function() {
         var item=$(this);
