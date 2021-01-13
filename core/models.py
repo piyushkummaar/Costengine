@@ -28,7 +28,7 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
         db_table = 'tbl_categories'
         managed = True
-    
+
 class SubCategory(models.Model):
     region =  models.ForeignKey(Region, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -68,7 +68,7 @@ class DomesticProduct(models.Model):
     markup = models.IntegerField(verbose_name ='Mark Up Rate(in %)',default = 35,blank=True, null=True)
     productcostc = models.FloatField(default = 0.494,verbose_name = "Product Cost C$",null=True,blank=True)
     targetgrossprofit = models.FloatField(default = 33,verbose_name = "Target Gross Profit (in %)",null=True,blank=True)
-    
+
     def __str__(self):
         return self.sku
 
@@ -88,34 +88,18 @@ class AddDomesticItem(models.Model):
 
     def save(self, *args, **kwargs):
         data = DomesticProduct.objects.all()
+        productcost = ""
+        targetgrossprofit = ""
         for i in data:
             if i.productcostc :
-                productcost = self.price + i.productcostc 
-                self.productcost = round(productcost, 2)
+                productcost = i.productcostc
             if i.targetgrossprofit:
-                Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) ) 
-                self.baseproductsalesprice = round(Baseproductsalesprice, 2)
+                targetgrossprofit =  i.targetgrossprofit
+        self.productcost = round((self.price + productcost),2)
+        self.baseproductsalesprice = round(self.productcost / ( 1 - (targetgrossprofit/100) ),2)
         super(AddDomesticItem, self).save(*args, **kwargs)
 
-    @receiver(post_save, sender=DomesticProduct)
-    def my_handler(sender,instance, **kwargs):
-        data = DomesticProduct.objects.filter(sku=instance)
-        for i in data:
-            add = AddDomesticItem.objects.all().filter(product_id=i.id)
-            for j in add:
-                productcost = ''
-                if i.productcostc :
-                    productcost = j.price + i.productcostc 
-                    productcost = round(productcost, 2)
-                    print(f"{j.price} + {i.productcostc} = {productcost}")
-                    # AddDomesticItem.objects.update(productcost = productcost) 
-                if i.targetgrossprofit:
-                    Baseproductsalesprice = i.productcostc / ( 1 - (i.targetgrossprofit/100) ) 
-                    baseproductsalesprice = round(Baseproductsalesprice, 2)
-                    AddDomesticItem.objects.update(baseproductsalesprice = baseproductsalesprice)
-                    # print(f"{i.productcostc} / ( 1 - ({i.targetgrossprofit}/100) ) = {baseproductsalesprice}")
 
-            
     class Meta:
         verbose_name = 'Domestic Item'
         verbose_name_plural = 'Domestic Items'
@@ -123,7 +107,7 @@ class AddDomesticItem(models.Model):
         managed = True
 
 '''
-    Imports 
+    Imports
 '''
 class ImportsProduct(models.Model):
     sku = models.CharField(max_length=250,unique=True)
@@ -169,16 +153,16 @@ class AddImportsItem(models.Model):
         data = ImportsProduct.objects.all()
         for i in data:
             if i.setupfee :
-                imsetupfee = ((i.setupfee/self.quantity)/self.price)  
+                imsetupfee = ((i.setupfee/self.quantity)/self.price)
                 self.setupfee = round(imsetupfee, 2)
                 self.productcost = round((self.price + (i.setupfee/self.quantity)),2)
             if i.duty:
                 self.duty = round(((i.duty/100) * self.productcost),2)
             if i.markup:
-                self.markup = round((self.duty * (i.markup/100)),2)  
+                self.markup = round((self.duty * (i.markup/100)),2)
             if i.targetgrossprofit:
-                Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) ) 
-                self.baseproductsalesprice = round(Baseproductsalesprice, 2)    
+                Baseproductsalesprice = self.productcost / ( 1 - (i.targetgrossprofit/100) )
+                self.baseproductsalesprice = round(Baseproductsalesprice, 2)
         super(AddImportsItem, self).save(*args, **kwargs)
 
     # @receiver(pre_save, sender=ImportsProduct)
@@ -190,14 +174,14 @@ class AddImportsItem(models.Model):
     #         for j in imdata:
     #             netduty = j.duty + j.markup
     #             netinsert = netduty
-    #             AddImportsItem.objects.update(netduty=netduty) 
+    #             AddImportsItem.objects.update(netduty=netduty)
                 # subtotal = j.baseproductsalesprice + j.totalfrieght + j.netduty
-                
-            
+
+
                 # AddImportsItem.objects.update(subtotal=subtotal)
                 # if i.frieghtvalue:
                     # print(f"{i.frieghtvalue} = {i.freight} * ({i.frieghtvalue}/100")
-            
+
     class Meta:
         verbose_name = 'Imports Item'
         verbose_name_plural = 'Imports Items'
@@ -207,10 +191,10 @@ class AddImportsItem(models.Model):
 
 class ProductOption(models.Model):
     sku =  models.CharField(max_length=250, blank=True, null=True)
-    optionname = models.CharField(max_length=250, blank=True, null=True) 
+    optionname = models.CharField(max_length=250, blank=True, null=True)
     optionvalue = models.FloatField(blank=True, null=True)
     markuprate = models.IntegerField(verbose_name ="Mark-Up Rate",default=35, blank=True, null=True)
-    
+
     def __str__(self):
         return self.optionname
 
@@ -222,10 +206,10 @@ class ProductOption(models.Model):
 
 class AdditionalOption(models.Model):
     sku =  models.CharField(max_length=250, blank=True, null=True)
-    optionname = models.CharField(max_length=250, blank=True, null=True) 
+    optionname = models.CharField(max_length=250, blank=True, null=True)
     optionvalue = models.FloatField(blank=True, null=True)
     markuprate = models.IntegerField(verbose_name ="Mark-Up Rate",default=35, blank=True, null=True)
-    
+
     def __str__(self):
         return self.optionname
 
