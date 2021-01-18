@@ -9,16 +9,25 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
+    <nav class="navbar navbar-light bg-light">
+          <div class='container mx-auto'>
+              <a class="navbar-brand" href="/">
+            <!--<img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
+            <h3>Costengine</h3>
+          </a>
+          </div>
+        </nav>
     <div class="container mt-5">
+
         <div class="col-md-6 mx-auto">
-        <h1 class="text-center">Cost Engine</h1>
-         <div class="card">
+        <!--<h1 class="text-center">Cost Engine</h1>-->
+         <div class="card shadow border-secondary">
              <div class="card-body">
                      <form id='myform' action="{% url 'home' %}" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="sel1">Region</label>
-                            <select class="form-control" id="sel1" name="region">
+                            <select class="form-control btn-outline-secondary" id="sel1" name="region">
                               <option>--Select--</option>
                               {% for data in reg %}
                               <option id="{{ data.id }}">{{ data }}</option>
@@ -27,19 +36,19 @@
                           </div>
                           <div class="form-group" id="sel2">
                             <label>Category</label>
-                            <select class='form-control' id='ddlcat'>
+                            <select class='form-control btn-outline-secondary' id='ddlcat'>
                                 <!-- <option>-Select-</option> -->
                             </select>
                           </div>
                           <div class="form-group" id="sel3">
                             <label>Sub Category</label>
-                            <select class='form-control' id='ddlsubcat'>
+                            <select class='form-control btn-outline-secondary' id='ddlsubcat'>
                                 <!-- <option>-Select-</option> -->
                             </select>
                           </div>
                           <div class="form-group" id="product">
                             <label>Products</label>
-                            <select class='form-control' id='ddlpro' name="sku">
+                            <select class='form-control btn-outline-secondary' id='ddlpro' name="sku">
                                 <!-- <option>-Select-</option> -->
                             </select>
                           </div>
@@ -56,7 +65,7 @@
                     <strong class="text-primary">{{ item.productname }}</strong>
                 </h1>
             </div>
-            <div class="table-responsive table-striped" id="tableaagyga">
+            <div class="table-responsive table-striped shadow" id="tableaagyga" >
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
