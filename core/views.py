@@ -55,8 +55,14 @@ def subcat(request):
         region = request.POST.get('region', '')
         if region == 'Domestic':
             subcat = SubCategory.objects.filter(region_id=1,category_id=subca)
+            if not subcat:
+                datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
+                return JsonResponse({"data": datapass}, status=200)
         elif region == 'Imports':
             subcat = SubCategory.objects.filter(region_id=2,category_id=subca)
+            if not subcat:
+                datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
+                return JsonResponse({"data": datapass}, status=200)
         data = {}
         count = 1
         for i in subcat:
@@ -68,12 +74,19 @@ def productname(request):
     if request.is_ajax and request.method == 'POST':
         seprate =  request.POST.get('value', '')
         region = request.POST.get('region', '')
+        print(seprate)
         subid = seprate.split('>')[0]
         catid = seprate.split('>')[1]
         if region == 'Domestic':
-            prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid,subcatagory_id=subid)
+            if subid == 'nn':
+                prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid)
+            else:
+                prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid,subcatagory_id=subid)
         elif region == 'Imports':
-            prodata = ImportsProduct.objects.filter(category_id=catid,subcatagory_id=subid)
+            if subid == 'nn':
+                prodata = ImportsProduct.objects.filter(category_id=catid)
+            else:
+                prodata = ImportsProduct.objects.filter(category_id=catid,subcatagory_id=subid)
         data = {}
         count = 1
         for i in prodata:
