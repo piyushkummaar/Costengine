@@ -3,7 +3,6 @@ from django.db.models.signals import pre_save,post_save
 from django.dispatch import receiver
 
 
-
 class Region(models.Model):
     region = models.CharField(max_length=250, blank=True, null=True)
 
@@ -82,11 +81,12 @@ class DomesticProduct(models.Model):
 class AddDomesticItem(models.Model):
     product = models.ForeignKey(DomesticProduct, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    price = models.FloatField()
-    productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)
-    baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    productcost = models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
+    baseproductsalesprice = models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
     def save(self, *args, **kwargs):
+        # self.price = round(self.price, 2)
         data = DomesticProduct.objects.all()
         productcost = ""
         targetgrossprofit = ""
@@ -136,7 +136,7 @@ class ImportsProduct(models.Model):
 class AddImportsItem(models.Model):
     product = models.ForeignKey(ImportsProduct, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=5, decimal_places=2)
     freight = models.FloatField(verbose_name = "Frieght UNIT",help_text="Enter the Freight values",null=True,blank=True)
     freightadmin = models.FloatField(verbose_name = "Frieght Admin/UNIT",help_text="Enter the Freight Admin values",null=True,blank=True)
     setupfee = models.FloatField(verbose_name = "Setup Fee",null=True,blank=True)
@@ -192,7 +192,7 @@ class AddImportsItem(models.Model):
 class ProductOption(models.Model):
     sku =  models.CharField(max_length=250, blank=True, null=True)
     optionname = models.CharField(max_length=250, blank=True, null=True)
-    optionvalue = models.FloatField(blank=True, null=True)
+    optionvalue = models.DecimalField(max_digits=5, decimal_places=2)
     markuprate = models.IntegerField(verbose_name ="Mark-Up Rate",default=35, blank=True, null=True)
 
     def __str__(self):
