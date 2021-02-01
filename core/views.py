@@ -74,7 +74,6 @@ def productname(request):
     if request.is_ajax and request.method == 'POST':
         seprate =  request.POST.get('value', '')
         region = request.POST.get('region', '')
-        print(seprate)
         subid = seprate.split('>')[0]
         catid = seprate.split('>')[1]
         if region == 'Domestic':
