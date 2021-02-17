@@ -106,6 +106,67 @@ class AddDomesticItem(models.Model):
         db_table = 'tbl_domesticitems'
         managed = True
 
+
+'''
+    Domestic Raw products
+'''
+
+class DomesticProductRaw(models.Model):
+    sku = models.CharField(max_length=250, unique=True)
+    region =  models.ForeignKey(Region, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subcatagory = models.ForeignKey(SubCategory, on_delete=models.CASCADE,blank=True, null=True)
+    subsubcategory = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE,blank=True, null=True)
+    productname = models.CharField(max_length=250)
+    markup = models.IntegerField(verbose_name ='Mark Up Rate(in %)',default = 35,blank=True, null=True)
+    firstcost = models.DecimalField(verbose_name = "1st Cost China US$",default = 0.26,max_digits=5, decimal_places=2,null=True,blank=True)
+    exchage = models.IntegerField(verbose_name ='Exchange(in %)',default = 35,blank=True, null=True)
+    duty = models.IntegerField(verbose_name ='Duty(in %)',default = 18,blank=True, null=True)
+    broker = models.IntegerField(verbose_name ='Broker(in %)',default = 1,blank=True, null=True)
+    printval = models.DecimalField(verbose_name = "Print",max_digits=5, decimal_places=2,null=True,blank=True)
+    transfer = models.DecimalField(verbose_name = "Transfer",max_digits=5, decimal_places=2,null=True,blank=True)
+    packing = models.DecimalField(verbose_name = "Packing",max_digits=5, decimal_places=2,null=True,blank=True)
+    freight = models.IntegerField(verbose_name ='Freight(in %)',default = 10,blank=True, null=True)
+    overhead = models.DecimalField(verbose_name = "Overhead(in %)",max_digits=5, default = 33,decimal_places=2,null=True,blank=True)
+
+    def __str__(self):
+        return self.sku
+
+
+    class Meta:
+        verbose_name = 'Domestic(Raw) Product'
+        verbose_name_plural = 'Domestic(Raw) Products'
+        db_table = 'tbl_domesticrawproducts'
+        managed = True
+
+class AddDomesticRawItem(models.Model):
+    product = models.ForeignKey(DomesticProductRaw, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    price = models.DecimalField(verbose_name = "1st Cost",max_digits=5, decimal_places=2)
+    totalprecentage = models.DecimalField(verbose_name = "Total Percentage",max_digits=5, decimal_places=2,null=True,blank=True)
+    ldp = models.DecimalField(verbose_name = "Landed Duty Paid",max_digits=5, decimal_places=2,null=True,blank=True)
+    printval = models.DecimalField(verbose_name = "Print",max_digits=5, decimal_places=2,null=True,blank=True)
+    overhead = models.DecimalField(verbose_name = "Overhead",max_digits=5, decimal_places=2,null=True,blank=True)
+    totalcost = models.DecimalField(verbose_name = "Total Cost",max_digits=5, decimal_places=2,null=True,blank=True)
+
+    # productcost = models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
+    # baseproductsalesprice = models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
+
+    # def save(self, *args, **kwargs):
+    #     # self.price = round(self.price, 2)
+    #     data = DomesticProductRaw.objects.all()
+    #     for i in data:
+    #         self.price = i.firstcost * self.quantity
+    #     super(AddDomesticRawItem, self).save(*args, **kwargs)
+
+
+    class Meta:
+        verbose_name = 'Domestic Raw Item'
+        verbose_name_plural = 'Domestic Raw Items'
+        db_table = 'tbl_domesticrawitems'
+        managed = True
+
+
 '''
     Imports
 '''

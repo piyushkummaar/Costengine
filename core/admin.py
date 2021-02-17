@@ -15,6 +15,22 @@ class ProductAdmin(admin.ModelAdmin):
         ProductInline,
     ]
 
+
+
+class ProductInlineDomesticRaw(admin.TabularInline):
+    model = AddDomesticRawItem
+
+
+class ProductAdminDomesticRaw(admin.ModelAdmin):
+    list_per_page = 10
+    search_fields = ("sku","productname",)
+    list_filter = ("category","subcatagory",)
+    list_display = ["sku","productname","category","subcatagory"]
+    inlines = [
+        ProductInlineDomesticRaw,
+    ]
+
+
 class ProductInlineImports(admin.TabularInline):
     model = AddImportsItem
 
@@ -61,6 +77,7 @@ class SubSubCategoryAdmin(admin.ModelAdmin):
     list_display = ["subsubcategory","subcategory","category","region"]
 
 admin.site.register(DomesticProduct,ProductAdmin)
+admin.site.register(DomesticProductRaw,ProductAdminDomesticRaw)
 admin.site.register(Region)
 admin.site.register(ImportsProduct,ProductAdminImports)
 admin.site.site_header = "Admin Dashboard"
