@@ -152,12 +152,36 @@ class AddDomesticRawItem(models.Model):
     # productcost = models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
     # baseproductsalesprice = models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
-    # def save(self, *args, **kwargs):
-    #     # self.price = round(self.price, 2)
-    #     data = DomesticProductRaw.objects.all()
-    #     for i in data:
-    #         self.price = i.firstcost * self.quantity
-    #     super(AddDomesticRawItem, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        # self.price = round(self.price, 2)
+        data = DomesticProductRaw.objects.all()
+        firstcost = ''
+        exchange = ''
+        duty = ''
+        broker = ''
+        freight = ''
+        for i in data:
+            if i.firstcost:
+                firstcost = i.firstcost
+            if i.exchage and i.duty and i.broker and i.freight:
+                exchange = i.exchage
+                duty = i.duty
+                broker =  i.broker
+                freight  = i.freight
+
+        #1st Cost 
+        self.price = firstcost * self.quantity
+        #total Percentage
+        self.totalprecentage =  round((exchange + duty + broker + freight),2)
+        # landed duty paid
+
+        #print
+
+        #overhead
+
+        #totalcost
+        
+        super(AddDomesticRawItem, self).save(*args, **kwargs)
 
 
     class Meta:
