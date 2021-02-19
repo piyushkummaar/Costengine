@@ -142,7 +142,7 @@ class DomesticProductRaw(models.Model):
 class AddDomesticRawItem(models.Model):
     product = models.ForeignKey(DomesticProductRaw, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    price = models.DecimalField(verbose_name = "1st Cost",max_digits=5, decimal_places=2)
+    price = models.DecimalField(verbose_name = "1st Cost",max_digits=5, decimal_places=2,null=True,blank=True)
     totalprecentage = models.DecimalField(verbose_name = "Total Percentage",max_digits=5, decimal_places=2,null=True,blank=True)
     ldp = models.DecimalField(verbose_name = "Landed Duty Paid",max_digits=5, decimal_places=2,null=True,blank=True)
     printval = models.DecimalField(verbose_name = "Print",max_digits=5, decimal_places=2,null=True,blank=True)
@@ -164,15 +164,15 @@ class AddDomesticRawItem(models.Model):
             if i.firstcost:
                 firstcost = i.firstcost
             if i.exchage and i.duty and i.broker and i.freight:
-                exchange = i.exchage
-                duty = i.duty
-                broker =  i.broker
-                freight  = i.freight
+                exchange = i.exchage/100
+                duty = i.duty/100
+                broker =  i.broker/100
+                freight  = i.freight/100
 
         #1st Cost 
         self.price = firstcost * self.quantity
         #total Percentage
-        self.totalprecentage =  round((exchange + duty + broker + freight),2)
+        self.totalprecentage =  exchange + duty + broker + freight
         # landed duty paid
 
         #print
