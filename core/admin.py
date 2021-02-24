@@ -1,7 +1,16 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
 from .models import *
+from admin_auto_filters.filters import AutocompleteFilter
 
+
+class CatagoryFilter(AutocompleteFilter):
+    title = 'Category' # display title
+    field_name = 'category' # name of the foreign key field
+
+class SubCatagoryFilter(AutocompleteFilter):
+    title = 'Subcatagory' # display title
+    field_name = 'subcatagory'
 
 class ProductInline(admin.TabularInline):
     model = AddDomesticItem
@@ -9,13 +18,11 @@ class ProductInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ("sku","productname",)
-    list_filter = ("category","subcatagory",)
+    list_filter = [CatagoryFilter,SubCatagoryFilter]#("category","subcatagory",)
     list_display = ["sku","productname","category","subcatagory"]
     inlines = [
         ProductInline,
     ]
-
-
 
 class ProductInlineDomesticRaw(admin.TabularInline):
     model = AddDomesticRawItem
@@ -24,12 +31,11 @@ class ProductInlineDomesticRaw(admin.TabularInline):
 class ProductAdminDomesticRaw(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ("sku","productname",)
-    list_filter = ("category","subcatagory",)
+    list_filter = [CatagoryFilter,SubCatagoryFilter]
     list_display = ["sku","productname","category","subcatagory"]
     inlines = [
         ProductInlineDomesticRaw,
     ]
-
 
 class ProductInlineImports(admin.TabularInline):
     model = AddImportsItem
@@ -38,11 +44,11 @@ class ProductInlineImports(admin.TabularInline):
 class ProductAdminImports(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ("sku","productname",)
-    list_filter = ("category","subcatagory",)
+    list_filter = [CatagoryFilter,SubCatagoryFilter]
     list_display = ["sku","productname","category","subcatagory"]
     inlines = [
         ProductInlineImports,
-    ]
+    ] 
 
 @admin.register(ProductOption)
 class ProductOptionAdmin(admin.ModelAdmin):
@@ -75,6 +81,7 @@ class SubSubCategoryAdmin(admin.ModelAdmin):
     search_fields = ("subsubcategory",)
     list_filter = ("region","category","subcategory",)
     list_display = ["subsubcategory","subcategory","category","region"]
+
 
 admin.site.register(DomesticProduct,ProductAdmin)
 admin.site.register(DomesticProductRaw,ProductAdminDomesticRaw)

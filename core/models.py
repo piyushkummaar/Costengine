@@ -139,6 +139,7 @@ class DomesticProductRaw(models.Model):
         db_table = 'tbl_domesticrawproducts'
         managed = True
 
+
 class AddDomesticRawItem(models.Model):
     product = models.ForeignKey(DomesticProductRaw, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -169,10 +170,10 @@ class AddDomesticRawItem(models.Model):
                 broker =  i.broker/100
                 freight  = i.freight/100
 
-        #1st Cost 
+        #1st Cost
         self.price = firstcost * self.quantity
         #total Percentage
-        self.totalprecentage =  exchange + duty + broker + freight
+        # self.totalprecentage =  exchange + duty + broker + freight
         # landed duty paid
 
         #print
@@ -180,7 +181,7 @@ class AddDomesticRawItem(models.Model):
         #overhead
 
         #totalcost
-        
+
         super(AddDomesticRawItem, self).save(*args, **kwargs)
 
 
