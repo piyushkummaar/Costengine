@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save,post_save
 from django.dispatch import receiver
+import decimal
 
 
 class Region(models.Model):
@@ -95,7 +96,7 @@ class AddDomesticItem(models.Model):
                 productcost = i.productcostc
             if i.targetgrossprofit:
                 targetgrossprofit =  i.targetgrossprofit
-        self.productcost = round((self.price + productcost),2)
+        self.productcost = round((decimal.Decimal(self.price) + productcost),2)
         self.baseproductsalesprice = round(self.productcost / ( 1 - (targetgrossprofit/100) ),2)
         super(AddDomesticItem, self).save(*args, **kwargs)
 
@@ -142,13 +143,23 @@ class DomesticProductRaw(models.Model):
 
 class AddDomesticRawItem(models.Model):
     product = models.ForeignKey(DomesticProductRaw, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(null=True,blank=True)
+    marketval = models.DecimalField(verbose_name = "Market Value",max_digits=5, decimal_places=2,null=True,blank=True)
+    distributorcost = models.DecimalField(verbose_name = "Disributor Cost",max_digits=9,decimal_places=9,null=True,blank=True)
     price = models.DecimalField(verbose_name = "1st Cost",max_digits=5, decimal_places=2,null=True,blank=True)
-    totalprecentage = models.DecimalField(verbose_name = "Total Percentage",max_digits=5, decimal_places=2,null=True,blank=True)
+    totallandedcost = models.DecimalField(verbose_name = "Total Landed Cost",max_digits=5, decimal_places=2,null=True,blank=True)
     ldp = models.DecimalField(verbose_name = "Landed Duty Paid",max_digits=5, decimal_places=2,null=True,blank=True)
     printval = models.DecimalField(verbose_name = "Print",max_digits=5, decimal_places=2,null=True,blank=True)
     overhead = models.DecimalField(verbose_name = "Overhead",max_digits=5, decimal_places=2,null=True,blank=True)
     totalcost = models.DecimalField(verbose_name = "Total Cost",max_digits=5, decimal_places=2,null=True,blank=True)
+    netsellprice = models.DecimalField(verbose_name = "Net Sell Price",max_digits=5, decimal_places=2,null=True,blank=True)
+    markup = models.IntegerField(null=True,blank=True)
+    onnetsell = models.DecimalField(verbose_name = "$$ On Net Sell Price",max_digits=5, decimal_places=2,null=True,blank=True)
+    marginonsell = models.IntegerField(null=True,blank=True)
+    listprice = models.DecimalField(verbose_name = "List price",max_digits=5, decimal_places=2,null=True,blank=True)
+    distributormargin = models.IntegerField(null=True,blank=True)
+    distributor = models.DecimalField(verbose_name = "Distributor $$",max_digits=5, decimal_places=2,null=True,blank=True)
+
 
     # productcost = models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
     # baseproductsalesprice = models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
