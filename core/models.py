@@ -68,6 +68,8 @@ class DomesticProduct(models.Model):
     markup = models.IntegerField(verbose_name ='Mark Up Rate(in %)',default = 35,blank=True, null=True)
     productcostc = models.FloatField(default = 0.494,verbose_name = "Product Cost C$",null=True,blank=True)
     targetgrossprofit = models.IntegerField(default = 33,verbose_name = "Target Gross Profit (in %)",null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.sku
@@ -129,6 +131,8 @@ class DomesticProductRaw(models.Model):
     packing = models.DecimalField(verbose_name = "Packing",max_digits=5, decimal_places=2,null=True,blank=True)
     freight = models.IntegerField(verbose_name ='Freight(in %)',default = 10,blank=True, null=True)
     overhead = models.DecimalField(verbose_name = "Overhead(in %)",max_digits=5, default = 33,decimal_places=2,null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.sku
@@ -220,6 +224,8 @@ class ImportsProduct(models.Model):
     markup = models.IntegerField(verbose_name ="Markup (in %)",default = 15,null=True,blank=True)
     frieghtvalue = models.IntegerField(verbose_name ="FRIEGHT ADMIN/UNIT (in %)",default = 15,null=True,blank=True)
     forex = models.FloatField(verbose_name ="Forex",default = 1.35,null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.sku
