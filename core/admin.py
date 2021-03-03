@@ -18,7 +18,7 @@ class ProductInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     def delete (self, obj):
-        return format_html(f'<input style="background-color:red;" onclick="{obj.pk}" type="button" value="Delete"/>')
+        return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
     delete.allow_tags = True
     delete.short_description ='Delete Product'
@@ -36,7 +36,7 @@ class ProductInlineDomesticRaw(admin.TabularInline):
 
 class ProductAdminDomesticRaw(admin.ModelAdmin):
     def delete (self, obj):
-        return format_html(f'<input style="background-color:red;" onclick="{obj.pk}" type="button" value="Delete"/>')
+        return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
     delete.allow_tags = True
     delete.short_description ='Delete Product'
@@ -54,7 +54,7 @@ class ProductInlineImports(admin.TabularInline):
 
 class ProductAdminImports(admin.ModelAdmin):
     def delete (self, obj):
-        return format_html(f'<input style="background-color:red;" onclick="{obj.pk}" type="button" value="Delete"/>')
+        return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
     delete.allow_tags = True
     delete.short_description ='Delete Product'
