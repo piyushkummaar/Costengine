@@ -3,6 +3,11 @@ from django.contrib.admin import ModelAdmin, register
 from .models import *
 from admin_auto_filters.filters import AutocompleteFilter
 from django.utils.html import format_html
+from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
+from search_admin_autocomplete.admin import SearchAutoCompleteAdmin
+
+class MyModelAdmin(SearchAutoCompleteAdmin):
+    search_fields = ["search_field",]
 
 
 class CatagoryFilter(AutocompleteFilter):
@@ -23,8 +28,10 @@ class ProductAdmin(admin.ModelAdmin):
     delete.allow_tags = True
     delete.short_description ='Delete Product'
     list_per_page = 10
-    search_fields = ("sku","productname",)
-    list_filter = [CatagoryFilter,SubCatagoryFilter]#("category","subcatagory",)
+    search_fields = ("sku","productname")
+    list_filter = (CatagoryFilter,SubCatagoryFilter,
+        ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
+    )
     list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [
         ProductInline,
@@ -42,7 +49,9 @@ class ProductAdminDomesticRaw(admin.ModelAdmin):
     delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname",)
-    list_filter = [CatagoryFilter,SubCatagoryFilter]
+    list_filter = (CatagoryFilter,SubCatagoryFilter,
+        ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
+    )
     list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [
         ProductInlineDomesticRaw,
@@ -60,7 +69,9 @@ class ProductAdminImports(admin.ModelAdmin):
     delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname",)
-    list_filter = [CatagoryFilter,SubCatagoryFilter]
+    list_filter = (CatagoryFilter,SubCatagoryFilter,
+        ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
+    )
     list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [
         ProductInlineImports,
