@@ -9,6 +9,7 @@ distlib==0.3.0
 distro==1.4.0
 Django==2.1.15
 django-admin-autocomplete-filter==0.6.1
+django-admin-rangefilter==0.7.0
 django-admin-sortable==2.2.3
 django-bootstrap-form==3.4
 django-material-admin==1.7.16
