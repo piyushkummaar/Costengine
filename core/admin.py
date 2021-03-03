@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin, register
 from .models import *
 from admin_auto_filters.filters import AutocompleteFilter
+from django.utils.html import format_html
 
 
 class CatagoryFilter(AutocompleteFilter):
@@ -16,10 +17,15 @@ class ProductInline(admin.TabularInline):
     model = AddDomesticItem
 
 class ProductAdmin(admin.ModelAdmin):
+    def delete (self, obj):
+        return format_html(f'<input style="background-color:red;" onclick="{obj.pk}" type="button" value="Delete"/>')
+
+    delete.allow_tags = True
+    delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname",)
     list_filter = [CatagoryFilter,SubCatagoryFilter]#("category","subcatagory",)
-    list_display = ["sku","productname","category","subcatagory"]
+    list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [
         ProductInline,
     ]
@@ -29,10 +35,15 @@ class ProductInlineDomesticRaw(admin.TabularInline):
 
 
 class ProductAdminDomesticRaw(admin.ModelAdmin):
+    def delete (self, obj):
+        return format_html(f'<input style="background-color:red;" onclick="{obj.pk}" type="button" value="Delete"/>')
+
+    delete.allow_tags = True
+    delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname",)
     list_filter = [CatagoryFilter,SubCatagoryFilter]
-    list_display = ["sku","productname","category","subcatagory"]
+    list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [
         ProductInlineDomesticRaw,
     ]
@@ -42,10 +53,15 @@ class ProductInlineImports(admin.TabularInline):
 
 
 class ProductAdminImports(admin.ModelAdmin):
+    def delete (self, obj):
+        return format_html(f'<input style="background-color:red;" onclick="{obj.pk}" type="button" value="Delete"/>')
+
+    delete.allow_tags = True
+    delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname",)
     list_filter = [CatagoryFilter,SubCatagoryFilter]
-    list_display = ["sku","productname","category","subcatagory"]
+    list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [
         ProductInlineImports,
     ] 

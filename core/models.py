@@ -98,6 +98,7 @@ class AddDomesticItem(models.Model):
                 productcost = i.productcostc
             if i.targetgrossprofit:
                 targetgrossprofit =  i.targetgrossprofit
+
         self.productcost = round((decimal.Decimal(self.price) + productcost),2)
         self.baseproductsalesprice = round(self.productcost / ( 1 - (targetgrossprofit/100) ),2)
         super(AddDomesticItem, self).save(*args, **kwargs)
