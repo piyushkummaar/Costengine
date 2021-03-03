@@ -71,28 +71,30 @@ def subcat(request):
         return JsonResponse({"data": data}, status=200)
 
 def productname(request):
-    if request.is_ajax and request.method == 'POST':
-        seprate =  request.POST.get('value', '')
-        region = request.POST.get('region', '')
-        subid = seprate.split('>')[0]
-        catid = seprate.split('>')[1]
-        if region == 'Domestic':
-            if subid == 'nn':
-                prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid)
-            else:
-                prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid,subcatagory_id=subid)
-        elif region == 'Imports':
-            if subid == 'nn':
-                prodata = ImportsProduct.objects.filter(category_id=catid)
-            else:
-                prodata = ImportsProduct.objects.filter(category_id=catid,subcatagory_id=subid)
-        data = {}
-        count = 1
-        for i in prodata:
-            data["val"+str(count)] = i.productname +">>"+i.sku
-            count += 1
-        return JsonResponse({"data": data}, status=200)
-
+    try:
+        if request.is_ajax and request.method == 'POST':
+            seprate =  request.POST.get('value', '')
+            region = request.POST.get('region', '')
+            subid = seprate.split('>')[0]
+            catid = seprate.split('>')[1]
+            if region == 'Domestic':
+                if subid == 'nn':
+                    prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid)
+                else:
+                    prodata = DomesticProduct.objects.filter(region_id=1,category_id=catid,subcatagory_id=subid)
+            elif region == 'Imports':
+                if subid == 'nn':
+                    prodata = ImportsProduct.objects.filter(category_id=catid)
+                else:
+                    prodata = ImportsProduct.objects.filter(category_id=catid,subcatagory_id=subid)
+            data = {}
+            count = 1
+            for i in prodata:
+                data["val"+str(count)] = i.productname +">>"+i.sku
+                count += 1
+            return JsonResponse({"data": data}, status=200)
+    except:
+        pass
 
 
 def custom_page_not_found_view(request, exception):

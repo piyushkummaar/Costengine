@@ -210,8 +210,3 @@ function getStyle(oElm, strCssRule) {
     }
     return strValue;
 }
-
-$(".prd-delete").click(function (e) { 
-    alert("Working!!");
-    
-});
