@@ -84,9 +84,9 @@ class DomesticProduct(models.Model):
 class AddDomesticItem(models.Model):
     product = models.ForeignKey(DomesticProduct, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    price = models.DecimalField(max_digits=5, decimal_places=2)
-    productcost = models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
-    baseproductsalesprice = models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
+    price = models.FloatField(null=True,blank=True) #models.DecimalField(max_digits=5, decimal_places=2)
+    productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)#models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
+    baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)#models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
     def save(self, *args, **kwargs):
         # self.price = round(self.price, 2)
@@ -98,8 +98,7 @@ class AddDomesticItem(models.Model):
                 productcost = i.productcostc
             if i.targetgrossprofit:
                 targetgrossprofit =  i.targetgrossprofit
-
-        self.productcost = round((decimal.Decimal(self.price) + productcost),2)
+        self.productcost = round((self.price + productcost),2)
         self.baseproductsalesprice = round(self.productcost / ( 1 - (targetgrossprofit/100) ),2)
         super(AddDomesticItem, self).save(*args, **kwargs)
 
