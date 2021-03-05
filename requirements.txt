@@ -6,8 +6,6 @@ django-admin-sortable==2.2.3
 django-bootstrap-form==3.4
 django-material-admin==1.7.16
 django-multiselectfield==0.1.12
-django-pyodbc-azure==2.1.0.0
-django-pyodbc-azure-2019==2.1.0.0
 django-search-admin-autocomplete==0.2.0
 pyodbc==4.0.22
 pytz==2020.4
