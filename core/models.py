@@ -89,7 +89,6 @@ class AddDomesticItem(models.Model):
     baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)#models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
     def save(self, *args, **kwargs):
-        # self.price = round(self.price, 2)
         data = DomesticProduct.objects.all()
         productcost = ""
         targetgrossprofit = ""
@@ -149,7 +148,7 @@ class AddDomesticRawItem(models.Model):
     product = models.ForeignKey(DomesticProductRaw, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=True,blank=True)
     marketval = models.DecimalField(verbose_name = "Market Value",max_digits=5, decimal_places=2,null=True,blank=True)
-    distributorcost = models.DecimalField(verbose_name = "Disributor Cost",max_digits=9,decimal_places=9,null=True,blank=True)
+    distributorcost = models.DecimalField(verbose_name = "Disributor Cost",max_digits=20,decimal_places=9,null=True,blank=True)
     price = models.DecimalField(verbose_name = "1st Cost",max_digits=5, decimal_places=2,null=True,blank=True)
     totallandedcost = models.DecimalField(verbose_name = "Total Landed Cost",max_digits=5, decimal_places=2,null=True,blank=True)
     ldp = models.DecimalField(verbose_name = "Landed Duty Paid",max_digits=5, decimal_places=2,null=True,blank=True)
@@ -168,36 +167,36 @@ class AddDomesticRawItem(models.Model):
     # productcost = models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
     # baseproductsalesprice = models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
-    def save(self, *args, **kwargs):
-        # self.price = round(self.price, 2)
-        data = DomesticProductRaw.objects.all()
-        firstcost = ''
-        exchange = ''
-        duty = ''
-        broker = ''
-        freight = ''
-        for i in data:
-            if i.firstcost:
-                firstcost = i.firstcost
-            if i.exchage and i.duty and i.broker and i.freight:
-                exchange = i.exchage/100
-                duty = i.duty/100
-                broker =  i.broker/100
-                freight  = i.freight/100
+    # def save(self, *args, **kwargs):
+    #     # self.price = round(self.price, 2)
+    #     data = DomesticProductRaw.objects.all()
+    #     firstcost = ''
+    #     exchange = ''
+    #     duty = ''
+    #     broker = ''
+    #     freight = ''
+    #     for i in data:
+    #         if i.firstcost:
+    #             firstcost = i.firstcost
+    #         if i.exchage and i.duty and i.broker and i.freight:
+    #             exchange = i.exchage/100
+    #             duty = i.duty/100
+    #             broker =  i.broker/100
+    #             freight  = i.freight/100
 
-        #1st Cost
-        self.price = firstcost * self.quantity
-        #total Percentage
-        # self.totalprecentage =  exchange + duty + broker + freight
-        # landed duty paid
+    #     #1st Cost
+    #     self.price = firstcost * self.quantity
+    #     #total Percentage
+    #     # self.totalprecentage =  exchange + duty + broker + freight
+    #     # landed duty paid
 
-        #print
+    #     #print
 
-        #overhead
+    #     #overhead
 
-        #totalcost
+    #     #totalcost
 
-        super(AddDomesticRawItem, self).save(*args, **kwargs)
+    #     super(AddDomesticRawItem, self).save(*args, **kwargs)
 
 
     class Meta:
