@@ -7,6 +7,5 @@ django-bootstrap-form==3.4
 django-material-admin==1.7.16
 django-multiselectfield==0.1.12
 django-search-admin-autocomplete==0.2.0
-pyodbc==4.0.22
 pytz==2020.4
 sqlparse==0.4.1
