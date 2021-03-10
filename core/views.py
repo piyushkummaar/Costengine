@@ -7,7 +7,7 @@ from django.core import serializers
 def home(request):
     '''
         Home view
-        display the a table
+        display the a table 
     '''
     reg = Region.objects.all()
     template_name = 'index.html'
@@ -34,16 +34,16 @@ def home(request):
             options = ProductOption.objects.all().filter(sku__icontains=sku)
             addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
             return render(request, template_name,{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
-        elif region == 'Imports':
+        elif region == 'Domestic(Raw)':
             domesticRawdata = DomesticProductRaw.objects.filter(sku=sku)
-            # for i in domesticRawdata:
-                # items = AddImportsItem.objects.all().filter(product_id=i.id)
-                # test = len(items) - 1
-                # th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
-                # val = AddImportsItem.objects.all().filter(product_id=i.id)
-            # options = ProductOption.objects.all().filter(sku__icontains=sku)
-            # addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
-            return render(request, template_name)#{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
+            for i in domesticRawdata:
+                items = AddDomesticRawItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticRawItem.objects.all().filter(product_id=i.id)[:test]
+                val = AddDomesticRawItem.objects.all().filter(product_id=i.id)
+            options = ProductOption.objects.all().filter(sku__icontains=sku)
+            addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
+            return render(request, template_name,{'reg':reg,'domesticRawdata':domesticRawdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
 
     context = {'reg':reg}
     return render(request,template_name,context)
@@ -75,7 +75,7 @@ def subcat(request):
                 datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
                 return JsonResponse({"data": datapass}, status=200)
         elif region == 'Domestic(Raw)':
-            subcat = SubCategory.objects.filter(region_id=4)
+            subcat = SubCategory.objects.filter(region_id=4,category_id=subca)
             if not subcat:
                 datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
                 return JsonResponse({"data": datapass}, status=200)
@@ -108,7 +108,6 @@ def productname(request):
                     prodata = DomesticProductRaw.objects.filter(category_id=catid)
                 else:
                     prodata = DomesticProductRaw.objects.filter(category_id=catid,subcatagory_id=subid)
-                    print(prodata)
             data = {}
             count = 1
             for i in prodata:

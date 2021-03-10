@@ -168,6 +168,201 @@
             {% endfor %}
             {% endif %}
          </div>
+
+<!-- =============================Domesctic (RAw)========================= -->
+<div id='table' class="container mt-5">
+    {% if domesticRawdata%}
+    {% for item in domesticRawdata %}
+    <div class="text-center mx-auto">
+        <h1 style="text-align:center;">
+            <strong class="text-primary">{{ item.productname }}</strong>
+        </h1>
+    </div>
+    <div class="table-responsive table-striped shadow" id="tableaagyga" >
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Item Number</th>
+                    <th scope="col">{{ item.sku }}</th>
+                    {% for i in test %}
+                    <th scope="col"></th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <tr>
+                    <th scope="row">Quantities</th>
+                    {% for i in items %}
+                    <td> {{i.quantity}} </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th scope="row">MARKET VALUE</th>
+                    {% for i in items %}
+                    <td> {{i.marketval}} </td>
+                    {% endfor %}
+                </tr>
+                    <tr style="background-color: rgb(142, 253, 253);" id='pcc'>
+                    <th scope="row">DISRIBUTOR COST</th>
+                    {% for i in items %}
+                    <td> {{i.distributorcost}} </td>
+                    {% endfor %}
+                </tr>
+                    <tr>
+                    <th scope="row">1ST COST</th>
+                    {% for i in items %}
+                        <td>{{ i.price }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+                    <tr>
+                    <th scope="row">TOTAL LANDED COST</th>
+                    {% for i in items %}
+                        <td>{{ i.totallandedcost }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+                    <th scope="row">LANDED DUTY PAID</th>
+                    {% for i in items %}
+                        <td>{{ i.ldp }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+                    <th scope="row">PRINT</th>
+                    {% for i in items %}
+                        <td>{{ i.printval }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+                    
+                    <th scope="row">OVERHEAD</th>
+                    {% for i in items %}
+                        <td>{{ i.overhead }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+                    
+                    <th scope="row">TOTAL COST</th>
+                    {% for i in items %}
+                        <td>{{ i.totalcost }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+
+                    <th scope="row">NET SELL PRICE</th>
+                    {% for i in items %}
+                        <td>{{ i.netsellprice }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+
+                    <th scope="row">MARKUP</th>
+                    {% for i in items %}
+                        <td>{{ i.markup }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+
+                    <th scope="row">$$ ON NET SELL PRICE</th>
+                    {% for i in items %}
+                        <td>{{ i.onnetsell }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+                    
+                    <th scope="row">MARGINONSELL</th>
+                    {% for i in items %}
+                        <td>{{ i.marginonsell }}</td>
+                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                    {% endfor %}
+                    </tr>
+
+                    <tr id='bcps'>
+                    <th scope="row">LIST PRICE</th>
+                    {% for i in items %}
+                    <td> {{i.listprice}} </td>
+                    {% endfor %}
+                </tr>
+
+                <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
+                    <th scope="row">DISTRIBUTORMARGIN</th>
+                    {% for i in items %}
+                    <td> {{i.distributormargin}} </td>
+                    {% endfor %}
+                </tr>
+                <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
+                    <th scope="row">DISTRIBUTOR $$</th>
+                    {% for i in items %}
+                    <td> {{i.distributor}} </td>
+                    {% endfor %}
+                </tr>
+                <tr style="background-color: yellow">
+                    <th>Options</th>
+                    {% for i in items %}
+                    <td>  </td>
+                    {% endfor %}
+            </tr>
+            <tr style="background-color: rgb(34, 247, 97);">
+                <th>
+                    Markup Rate(in %) :
+                    <input id="mrk" type="number" size="5" value="{{item.markup}}">
+                 </th>
+                {% for i in items %}
+                <td>  </td>
+                {% endfor %}
+            </tr>
+            {% for opt in options%}
+            {% if item.sku == opt.sku %}
+            <tr class="optval">
+               <th scope="row">{{opt}} : <input type="number" value="{{opt.optionvalue}}" class="optcls" style="width:60px"/>
+                   <select name="option"  width="3" class="ddlopt" id="opt{{opt.id}}">
+                       <option value="N">No</option>
+                       <option value="Y">Yes</option>
+                     </select>
+               </th>
+               {% for i in items %}
+                    <td class="tdopt"> 0 </td>
+               {% endfor %}
+           </tr>
+           {% endif %}
+     {% endfor %}
+           <tr id='tos'>
+               <th>Total Options :</th>
+               {% for i in items %}
+               <td> 0 </td>
+               {% endfor %}
+           </tr>
+           <tr style="background-color: rgb(39, 185, 243)">
+               <th></th>
+               {% for i in items %}
+               <td>  </td>
+               {% endfor %}
+           </tr>
+           <!-- <tr id='tsp'>
+               <th>Total Sales Price Net/Unit C$ :</th>
+               {% for i in items %}
+               <td>  </td>
+               {% endfor %}
+           </tr>
+           <tr id='fly'>
+               <th>Flyer Price(C) :</th>
+               {% for i in items %}
+               <td>  </td>
+               {% endfor %}
+           </tr> -->
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+    {% endif %}
+ </div>
+ 
+<!-- =================================(END)====================================== -->
+
+
+
+
             <!-- ############## IMPORT TABLE ############## -->
             {%if improdata %}
             {% for imd in improdata %}
