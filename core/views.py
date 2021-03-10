@@ -34,6 +34,17 @@ def home(request):
             options = ProductOption.objects.all().filter(sku__icontains=sku)
             addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
             return render(request, template_name,{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
+        elif region == 'Imports':
+            domesticRawdata = DomesticProductRaw.objects.filter(sku=sku)
+            # for i in domesticRawdata:
+                # items = AddImportsItem.objects.all().filter(product_id=i.id)
+                # test = len(items) - 1
+                # th = AddDomesticItem.objects.all().filter(product_id=i.id)[:test]
+                # val = AddImportsItem.objects.all().filter(product_id=i.id)
+            # options = ProductOption.objects.all().filter(sku__icontains=sku)
+            # addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
+            return render(request, template_name)#{'reg':reg,'improdata':improdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
+
     context = {'reg':reg}
     return render(request,template_name,context)
 
@@ -63,6 +74,11 @@ def subcat(request):
             if not subcat:
                 datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
                 return JsonResponse({"data": datapass}, status=200)
+        elif region == 'Domestic(Raw)':
+            subcat = SubCategory.objects.filter(region_id=4)
+            if not subcat:
+                datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
+                return JsonResponse({"data": datapass}, status=200)
         data = {}
         count = 1
         for i in subcat:
@@ -87,12 +103,19 @@ def productname(request):
                     prodata = ImportsProduct.objects.filter(category_id=catid)
                 else:
                     prodata = ImportsProduct.objects.filter(category_id=catid,subcatagory_id=subid)
+            elif region == 'Domestic(Raw)':
+                if subid == 'nn':
+                    prodata = DomesticProductRaw.objects.filter(category_id=catid)
+                else:
+                    prodata = DomesticProductRaw.objects.filter(category_id=catid,subcatagory_id=subid)
+                    print(prodata)
             data = {}
             count = 1
             for i in prodata:
                 data["val"+str(count)] = i.productname +">>"+i.sku
                 count += 1
             return JsonResponse({"data": data}, status=200)
+
     except:
         pass
 
