@@ -64,6 +64,7 @@ def subcat(request):
     if request.is_ajax and request.method == 'POST':
         subca =  request.POST.get('value', '')
         region = request.POST.get('region', '')
+
         if region == 'Domestic':
             subcat = SubCategory.objects.filter(region_id=1,category_id=subca)
             if not subcat:
@@ -72,7 +73,7 @@ def subcat(request):
         elif region == 'Imports':
             subcat = SubCategory.objects.filter(region_id=2,category_id=subca)
             if not subcat:
-                datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
+                datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca}
                 return JsonResponse({"data": datapass}, status=200)
         elif region == 'Domestic(Raw)':
             subcat = SubCategory.objects.filter(region_id=4,category_id=subca)
