@@ -89,19 +89,21 @@ class AddDomesticItem(models.Model):
     productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)#models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
     baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)#models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
-    def save(self, *args, **kwargs):
-        data = DomesticProduct.objects.all()
-        productcost = ""
-        targetgrossprofit = ""
-        for i in data:
-            if i.productcostc :
-                productcost = i.productcostc
-            if i.targetgrossprofit:
-                targetgrossprofit =  i.targetgrossprofit
-        self.productcost = round((self.price + productcost),2)
-        self.baseproductsalesprice = round(self.productcost / ( 1 - (targetgrossprofit/100) ),2)
-        super(AddDomesticItem, self).save(*args, **kwargs)
-
+    try:
+        def save(self, *args, **kwargs):
+            data = DomesticProduct.objects.all()
+            productcost = ""
+            targetgrossprofit = ""
+            for i in data:
+                if i.productcostc :
+                    productcost = i.productcostc
+                if i.targetgrossprofit:
+                    targetgrossprofit =  i.targetgrossprofit
+            self.productcost = round((self.price + productcost),2)
+            self.baseproductsalesprice = round(self.productcost / ( 1 - (targetgrossprofit/100) ),2)
+            super(AddDomesticItem, self).save(*args, **kwargs)
+    except Exception as e:
+        print(e)
 
     class Meta:
         verbose_name = 'Domestic Item'
@@ -165,66 +167,68 @@ class AddDomesticRawItem(models.Model):
 
 
     def save(self, *args, **kwargs):
-        data = DomesticProductRaw.objects.all()
-        firstcost = ''
-        exchange = ''
-        duty = ''
-        broker = ''
-        freight = ''
-        transfer = ''
-        pval = '' #(Print Value)
-        overhead = ''
-        for i in data:
-            if i.firstcost:
-                firstcost = i.firstcost
-            if i.exchage and i.duty and i.broker and i.freight and i.overhead:
-                exchange = i.exchage/100
-                duty = i.duty/100
-                broker =  i.broker/100
-                freight  = i.freight/100
-                overhead = i.overhead/100
-            if i.transfer and i.packing and i.printval:
-                transfer = i.transfer
-                packing =  i.packing
-                pval = i.printval
-        #1st Cost
-        self.price = round((firstcost * self.quantity),2)
-        #total Percentage
-        self.totallandedcost =  round((exchange + duty + broker + freight),2)
-        # landed duty paid
-        self.ldp =  round((self.totallandedcost * firstcost ),2)
-        #print
-        self.printval = round((pval + transfer + packing),2)
-        #overhead
-        self.overhead = round(((self.ldp + self.printval)* overhead),2)
-        #totalcost
-        self.totalcost = round((self.ldp + self.printval + self.overhead),2)
-        #net sell price
-        if self.marketval:
-            '''
-                marketvalue is input value by user
-            '''
-            #Net Sell Price
-            self.netsellprice = round((self.totalcost * self.marketval),2)
-        if  self.netsellprice: 
-            #On Net Sell
-            self.onnetsell = round((self.netsellprice - self.totalcost),2)
-            #MARKUP
-            mark = (self.onnetsell / self.totalcost) * 100
-            self.markup = math.ceil(mark)
-            #MARGIN ON SELL
-            margin = (self.onnetsell / self.netsellprice) * 100
-            self.marginonsell = math.ceil(margin)
-            #LIST PRICE
-            # 1.666666666643
-            self.listprice = round((self.netsellprice * self.distributorcost),2)
-            #DISTRIBUTOR MARGIN
-            distributor = ((self.listprice - self.netsellprice)/self.listprice) * 100
-            self.distributormargin = math.ceil(distributor)
-            # DISTRIBUTOR $$
-            self.distributor = round((self.listprice - self.netsellprice),2)
-        super(AddDomesticRawItem, self).save(*args, **kwargs)
-
+        try:
+            data = DomesticProductRaw.objects.all()
+            firstcost = ''
+            exchange = ''
+            duty = ''
+            broker = ''
+            freight = ''
+            transfer = ''
+            pval = '' #(Print Value)
+            overhead = ''
+            for i in data:
+                if i.firstcost:
+                    firstcost = i.firstcost
+                if i.exchage and i.duty and i.broker and i.freight and i.overhead:
+                    exchange = i.exchage/100
+                    duty = i.duty/100
+                    broker =  i.broker/100
+                    freight  = i.freight/100
+                    overhead = i.overhead/100
+                if i.transfer and i.packing and i.printval:
+                    transfer = i.transfer
+                    packing =  i.packing
+                    pval = i.printval
+            #1st Cost
+            self.price = round((firstcost * self.quantity),2)
+            #total Percentage
+            self.totallandedcost =  round((exchange + duty + broker + freight),2)
+            # landed duty paid
+            self.ldp =  round((self.totallandedcost * firstcost ),2)
+            #print
+            self.printval = round((pval + transfer + packing),2)
+            #overhead
+            self.overhead = round(((self.ldp + self.printval)* overhead),2)
+            #totalcost
+            self.totalcost = round((self.ldp + self.printval + self.overhead),2)
+            #net sell price
+            if self.marketval:
+                '''
+                    marketvalue is input value by user
+                '''
+                #Net Sell Price
+                self.netsellprice = round((self.totalcost * self.marketval),2)
+            if  self.netsellprice:
+                #On Net Sell
+                self.onnetsell = round((self.netsellprice - self.totalcost),2)
+                #MARKUP
+                mark = (self.onnetsell / self.totalcost) * 100
+                self.markup = math.ceil(mark)
+                #MARGIN ON SELL
+                margin = (self.onnetsell / self.netsellprice) * 100
+                self.marginonsell = math.ceil(margin)
+                #LIST PRICE
+                # 1.666666666643
+                self.listprice = round((self.netsellprice * self.distributorcost),2)
+                #DISTRIBUTOR MARGIN
+                distributor = ((self.listprice - self.netsellprice)/self.listprice) * 100
+                self.distributormargin = math.ceil(distributor)
+                # DISTRIBUTOR $$
+                self.distributor = round((self.listprice - self.netsellprice),2)
+            super(AddDomesticRawItem, self).save(*args, **kwargs)
+        except Exception as e:
+            print(e)
 
     class Meta:
         verbose_name = 'Domestic Raw Item'
