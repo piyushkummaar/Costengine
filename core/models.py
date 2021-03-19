@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import pre_save,post_save
 from django.dispatch import receiver
 import decimal
+import math
 
 
 class Region(models.Model):
@@ -143,60 +144,86 @@ class DomesticProductRaw(models.Model):
         db_table = 'tbl_domesticrawproducts'
         managed = True
 
-
 class AddDomesticRawItem(models.Model):
     product = models.ForeignKey(DomesticProductRaw, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=True,blank=True)
-    marketval = models.DecimalField(verbose_name = "Market Value",max_digits=5, decimal_places=2,null=True,blank=True)
-    distributorcost = models.DecimalField(verbose_name = "Disributor Cost",max_digits=20,decimal_places=9,null=True,blank=True)
-    price = models.DecimalField(verbose_name = "1st Cost",max_digits=5, decimal_places=2,null=True,blank=True)
-    totallandedcost = models.DecimalField(verbose_name = "Total Landed Cost",max_digits=5, decimal_places=2,null=True,blank=True)
-    ldp = models.DecimalField(verbose_name = "Landed Duty Paid",max_digits=5, decimal_places=2,null=True,blank=True)
-    printval = models.DecimalField(verbose_name = "Print",max_digits=5, decimal_places=2,null=True,blank=True)
-    overhead = models.DecimalField(verbose_name = "Overhead",max_digits=5, decimal_places=2,null=True,blank=True)
-    totalcost = models.DecimalField(verbose_name = "Total Cost",max_digits=5, decimal_places=2,null=True,blank=True)
-    netsellprice = models.DecimalField(verbose_name = "Net Sell Price",max_digits=5, decimal_places=2,null=True,blank=True)
-    markup = models.IntegerField(null=True,blank=True)
-    onnetsell = models.DecimalField(verbose_name = "$$ On Net Sell Price",max_digits=5, decimal_places=2,null=True,blank=True)
+    marketval = models.FloatField(verbose_name = "Market Value",null=True,blank=True)
+    distributorcost = models.FloatField(verbose_name = "Distributor Cost",null=True,blank=True)
+    price = models.FloatField(verbose_name = "1st Cost",null=True,blank=True)
+    totallandedcost = models.FloatField(verbose_name = "Total Landed Cost",null=True,blank=True)
+    ldp = models.FloatField(verbose_name = "Landed Duty Paid",null=True,blank=True)
+    printval = models.FloatField(verbose_name = "Print",null=True,blank=True)
+    overhead = models.FloatField(verbose_name = "Overhead",null=True,blank=True)
+    totalcost = models.FloatField(verbose_name = "Total Cost",null=True,blank=True)
+    netsellprice = models.FloatField(verbose_name = "Net Sell Price",null=True,blank=True)
+    markup = models.IntegerField(verbose_name = "Markup (in %)",null=True,blank=True)
+    onnetsell = models.FloatField(verbose_name = "$$ On Net Sell Price",null=True,blank=True)
     marginonsell = models.IntegerField(null=True,blank=True)
-    listprice = models.DecimalField(verbose_name = "List price",max_digits=5, decimal_places=2,null=True,blank=True)
+    listprice = models.FloatField(verbose_name = "List price",null=True,blank=True)
     distributormargin = models.IntegerField(null=True,blank=True)
-    distributor = models.DecimalField(verbose_name = "Distributor $$",max_digits=5, decimal_places=2,null=True,blank=True)
+    distributor = models.FloatField(verbose_name = "Distributor $$",null=True,blank=True)
 
 
-    # productcost = models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
-    # baseproductsalesprice = models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
-
-    # def save(self, *args, **kwargs):
-    #     # self.price = round(self.price, 2)
-    #     data = DomesticProductRaw.objects.all()
-    #     firstcost = ''
-    #     exchange = ''
-    #     duty = ''
-    #     broker = ''
-    #     freight = ''
-    #     for i in data:
-    #         if i.firstcost:
-    #             firstcost = i.firstcost
-    #         if i.exchage and i.duty and i.broker and i.freight:
-    #             exchange = i.exchage/100
-    #             duty = i.duty/100
-    #             broker =  i.broker/100
-    #             freight  = i.freight/100
-
-    #     #1st Cost
-    #     self.price = firstcost * self.quantity
-    #     #total Percentage
-    #     # self.totalprecentage =  exchange + duty + broker + freight
-    #     # landed duty paid
-
-    #     #print
-
-    #     #overhead
-
-    #     #totalcost
-
-    #     super(AddDomesticRawItem, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        data = DomesticProductRaw.objects.all()
+        firstcost = ''
+        exchange = ''
+        duty = ''
+        broker = ''
+        freight = ''
+        transfer = ''
+        pval = '' #(Print Value)
+        overhead = ''
+        for i in data:
+            if i.firstcost:
+                firstcost = i.firstcost
+            if i.exchage and i.duty and i.broker and i.freight and i.overhead:
+                exchange = i.exchage/100
+                duty = i.duty/100
+                broker =  i.broker/100
+                freight  = i.freight/100
+                overhead = i.overhead/100
+            if i.transfer and i.packing and i.printval:
+                transfer = i.transfer
+                packing =  i.packing
+                pval = i.printval
+        #1st Cost
+        self.price = round((firstcost * self.quantity),2)
+        #total Percentage
+        self.totallandedcost =  round((exchange + duty + broker + freight),2)
+        # landed duty paid
+        self.ldp =  round((self.totallandedcost * firstcost ),2)
+        #print
+        self.printval = round((pval + transfer + packing),2)
+        #overhead
+        self.overhead = round(((self.ldp + self.printval)* overhead),2)
+        #totalcost
+        self.totalcost = round((self.ldp + self.printval + self.overhead),2)
+        #net sell price
+        if self.marketval:
+            '''
+                marketvalue is input value by user
+            '''
+            #Net Sell Price
+            self.netsellprice = round((self.totalcost * self.marketval),2)
+            #On Net Sell
+            self.onnetsell = round((self.netsellprice - self.totalcost),2)
+            #MARKUP
+            mark = (self.onnetsell / self.totalcost) * 100
+            self.markup = math.ceil(mark)
+            #MARGIN ON SELL
+            margin = (self.onnetsell / self.netsellprice) * 100
+            print(margin)
+            self.marginonsell = math.ceil(margin)
+            #LIST PRICE
+            # 1.666666666643
+            self.listprice = round((self.netsellprice * self.distributorcost),2)
+            #DISTRIBUTOR MARGIN
+            distributor = ((self.listprice - self.netsellprice)/self.listprice) * 100
+            self.distributormargin = math.ceil(distributor)
+            # DISTRIBUTOR $$
+            self.distributor = round((self.listprice - self.netsellprice),2)
+        super(AddDomesticRawItem, self).save(*args, **kwargs)
 
 
     class Meta:
