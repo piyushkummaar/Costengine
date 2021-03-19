@@ -206,6 +206,7 @@ class AddDomesticRawItem(models.Model):
             '''
             #Net Sell Price
             self.netsellprice = round((self.totalcost * self.marketval),2)
+        if  self.netsellprice: 
             #On Net Sell
             self.onnetsell = round((self.netsellprice - self.totalcost),2)
             #MARKUP
@@ -213,7 +214,6 @@ class AddDomesticRawItem(models.Model):
             self.markup = math.ceil(mark)
             #MARGIN ON SELL
             margin = (self.onnetsell / self.netsellprice) * 100
-            print(margin)
             self.marginonsell = math.ceil(margin)
             #LIST PRICE
             # 1.666666666643
