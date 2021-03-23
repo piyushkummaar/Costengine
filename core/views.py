@@ -130,4 +130,4 @@ def custom_permission_denied_view(request, exception=None):
     return render(request, "errors/403.html", {"status":403,"title":"Forbidden!"})
 
 def custom_bad_request_view(request, exception=None):
-    return render(request, "errors/400.html", {"status":404,"title":"Bad Request!"})
+    return render(request, "errors/400.html", {"status":400,"title":"Bad Request!"})

@@ -49,6 +49,8 @@ class ProductAdminDomesticRaw(admin.ModelAdmin):
     delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname",)
+    # fields = [("sku","productname"),"region","category","subcatagory","subsubcategory",
+    # ("markup","duty","exchage","broker"),"freight",("firstcost","printval"),("transfer","packing"),"overhead"]
     list_filter = (CatagoryFilter,SubCatagoryFilter,
         ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
     )
@@ -59,6 +61,7 @@ class ProductAdminDomesticRaw(admin.ModelAdmin):
 
 class ProductInlineImports(admin.TabularInline):
     model = AddImportsItem
+    
 
 
 class ProductAdminImports(admin.ModelAdmin):

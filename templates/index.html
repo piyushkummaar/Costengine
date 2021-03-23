@@ -200,101 +200,106 @@
                 <tr>
                     <th scope="row">MARKET VALUE</th>
                     {% for i in items %}
-                    <td> {{i.marketval}} </td>
+                    <!-- <td> {{i.marketval}} </td> -->
+                    <td><input type="number" min="0" max="100" value="{{i.marketval}}" class="tgp" size="5"></td>
                     {% endfor %}
                 </tr>
                     <tr style="background-color: rgb(142, 253, 253);" id='pcc'>
                     <th scope="row">DISRIBUTOR COST</th>
-                    {% for i in items %}
-                    <td> {{i.distributorcost}} </td>
+                    {% for i in items %}                    
+                    <td><input type="number" min="0" max="100" value="{{i.distributorcost}}" class="tgp" size="5"></td>
                     {% endfor %}
                 </tr>
                     <tr>
                     <th scope="row">1ST COST</th>
                     {% for i in items %}
-                        <td>{{ i.price }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.price }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
                     <tr>
                     <th scope="row">TOTAL LANDED COST</th>
                     {% for i in items %}
-                        <td>{{ i.totallandedcost }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.totallandedcost }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.totallandedcost }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
                     <th scope="row">LANDED DUTY PAID</th>
                     {% for i in items %}
-                        <td>{{ i.ldp }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.ldp }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.ldp }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
                     <th scope="row">PRINT</th>
                     {% for i in items %}
-                        <td>{{ i.printval }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.printval }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.printval }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
                     
                     <th scope="row">OVERHEAD</th>
                     {% for i in items %}
-                        <td>{{ i.overhead }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.overhead }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.overhead }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
                     
                     <th scope="row">TOTAL COST</th>
                     {% for i in items %}
-                        <td>{{ i.totalcost }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.totalcost }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.totalcost }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
 
                     <th scope="row">NET SELL PRICE</th>
                     {% for i in items %}
-                        <td>{{ i.netsellprice }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.netsellprice }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.netsellprice }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
 
                     <th scope="row">MARKUP</th>
                     {% for i in items %}
-                        <td>{{ i.markup }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.markup }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.markup }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
 
                     <th scope="row">$$ ON NET SELL PRICE</th>
                     {% for i in items %}
-                        <td>{{ i.onnetsell }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.onnetsell }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.onnetsell }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
                     
                     <th scope="row">MARGINONSELL</th>
                     {% for i in items %}
-                        <td>{{ i.marginonsell }}</td>
-                    <!-- <td><input type="number" min="0" max="100" value="{{ i.price }}" class="tgp" size="5"></td> -->
+                        <!-- <td>{{ i.marginonsell }}</td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.marginonsell }}" class="tgp" size="5"></td>
                     {% endfor %}
                     </tr>
 
                     <tr id='bcps'>
                     <th scope="row">LIST PRICE</th>
                     {% for i in items %}
-                    <td> {{i.listprice}} </td>
+                    <!-- <td> {{i.listprice}} </td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.listprice }}" class="tgp" size="5"></td>
+
                     {% endfor %}
                 </tr>
 
                 <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
                     <th scope="row">DISTRIBUTORMARGIN</th>
                     {% for i in items %}
-                    <td> {{i.distributormargin}} </td>
+                    <!-- <td> {{i.distributormargin}} </td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.distributormargin }}" class="tgp" size="5"></td>
                     {% endfor %}
                 </tr>
                 <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
                     <th scope="row">DISTRIBUTOR $$</th>
                     {% for i in items %}
-                    <td> {{i.distributor}} </td>
+                    <!-- <td> {{i.distributor}} </td> -->
+                    <td><input type="number" min="0" max="100" value="{{ i.distributor }}" class="tgp" size="5"></td>
                     {% endfor %}
                 </tr>
                 <tr style="background-color: yellow">
