@@ -5,10 +5,12 @@ from admin_auto_filters.filters import AutocompleteFilter
 from django.utils.html import format_html
 from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
 from search_admin_autocomplete.admin import SearchAutoCompleteAdmin
+#for import export functionality
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 class MyModelAdmin(SearchAutoCompleteAdmin):
     search_fields = ["search_field",]
-
 
 class CatagoryFilter(AutocompleteFilter):
     title = 'Category' # display title
@@ -21,7 +23,7 @@ class SubCatagoryFilter(AutocompleteFilter):
 class ProductInline(admin.TabularInline):
     model = AddDomesticItem
 
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     def delete (self, obj):
         return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
@@ -36,11 +38,11 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [
         ProductInline,
     ]
-
+    
 class ProductInlineSize(admin.TabularInline):
     model = AddDomesticSizeItem
 
-class ProductAdminSize(admin.ModelAdmin):
+class ProductAdminSize(ImportExportModelAdmin,admin.ModelAdmin):
     def delete (self, obj):
         return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
@@ -57,12 +59,11 @@ class ProductAdminSize(admin.ModelAdmin):
     ]
 
 
-
 class ProductInlineDomesticRaw(admin.TabularInline):
     model = AddDomesticRawItem
 
 
-class ProductAdminDomesticRaw(admin.ModelAdmin):
+class ProductAdminDomesticRaw(ImportExportModelAdmin,admin.ModelAdmin):
     def delete (self, obj):
         return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
@@ -85,7 +86,7 @@ class ProductInlineImports(admin.TabularInline):
     
 
 
-class ProductAdminImports(admin.ModelAdmin):
+class ProductAdminImports(ImportExportModelAdmin,admin.ModelAdmin):
     def delete (self, obj):
         return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
