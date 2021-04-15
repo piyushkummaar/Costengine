@@ -9,17 +9,25 @@ from search_admin_autocomplete.admin import SearchAutoCompleteAdmin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
+
 class MyModelAdmin(SearchAutoCompleteAdmin):
+    ''' Search field on admin'''
     search_fields = ["search_field",]
 
 class CatagoryFilter(AutocompleteFilter):
+    ''' Autofield on Category '''
     title = 'Category' # display title
     field_name = 'category' # name of the foreign key field
 
 class SubCatagoryFilter(AutocompleteFilter):
+    ''' Autofield on Subcategory '''
+    
     title = 'Subcatagory' # display title
     field_name = 'subcatagory'
 
+'''
+DOMESTIC
+'''
 class ProductInline(admin.TabularInline):
     model = AddDomesticItem
 
@@ -39,6 +47,9 @@ class ProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
         ProductInline,
     ]
     
+'''
+DOMESTIC SIZE 
+'''
 class ProductInlineSize(admin.TabularInline):
     model = AddDomesticSizeItem
 
@@ -59,6 +70,9 @@ class ProductAdminSize(ImportExportModelAdmin,admin.ModelAdmin):
     ]
 
 
+'''
+DOMESTIC RAW
+'''
 class ProductInlineDomesticRaw(admin.TabularInline):
     model = AddDomesticRawItem
 
@@ -81,6 +95,10 @@ class ProductAdminDomesticRaw(ImportExportModelAdmin,admin.ModelAdmin):
         ProductInlineDomesticRaw,
     ]
 
+'''
+IMPORT
+
+'''
 class ProductInlineImports(admin.TabularInline):
     model = AddImportsItem
     
@@ -100,6 +118,9 @@ class ProductAdminImports(ImportExportModelAdmin,admin.ModelAdmin):
         ProductInlineImports,
     ] 
 
+'''
+FILTER's
+'''
 @admin.register(ProductOption)
 class ProductOptionAdmin(admin.ModelAdmin):
     list_per_page = 10
@@ -134,7 +155,7 @@ class SubSubCategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DomesticProduct,ProductAdmin)
-admin.site.register(DomesticSizeProduct,ProductAdminSize)
+# admin.site.register(DomesticSizeProduct,ProductAdminSize)
 admin.site.register(DomesticProductRaw,ProductAdminDomesticRaw)
 admin.site.register(Region)
 admin.site.register(ImportsProduct,ProductAdminImports)
