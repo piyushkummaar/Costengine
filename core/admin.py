@@ -154,6 +154,26 @@ class SubSubCategoryAdmin(admin.ModelAdmin):
     list_display = ["subsubcategory","subcategory","category","region"]
 
 
+'''
+For all Iteams import export functionality
+'''
+@admin.register(AddDomesticRawItem)
+class AddDomesticRawItemAdmin(ImportExportModelAdmin):
+     list_per_page = 10
+     list_display = ["product","quantity","price"]
+
+
+@admin.register(AddDomesticItem)
+class AddDomesticItemAdmin(ImportExportModelAdmin):
+     list_per_page = 10
+     list_display = ["product","quantity","price"]
+
+
+@admin.register(AddImportsItem)
+class AddImportsItemAdmin(ImportExportModelAdmin):
+     list_per_page = 10
+
+
 admin.site.register(DomesticProduct,ProductAdmin)
 # admin.site.register(DomesticSizeProduct,ProductAdminSize)
 admin.site.register(DomesticProductRaw,ProductAdminDomesticRaw)
