@@ -84,8 +84,6 @@ class ProductAdminDomesticRaw(ImportExportModelAdmin,admin.ModelAdmin):
 class ProductInlineImports(admin.TabularInline):
     model = AddImportsItem
     
-
-
 class ProductAdminImports(ImportExportModelAdmin,admin.ModelAdmin):
     def delete (self, obj):
         return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
