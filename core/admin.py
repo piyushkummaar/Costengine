@@ -50,24 +50,24 @@ class ProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 '''
 DOMESTIC SIZE 
 '''
-class ProductInlineSize(admin.TabularInline):
-    model = AddDomesticSizeItem
+# class ProductInlineSize(admin.TabularInline):
+#     model = AddDomesticSizeItem
 
-class ProductAdminSize(ImportExportModelAdmin,admin.ModelAdmin):
-    def delete (self, obj):
-        return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
+# class ProductAdminSize(ImportExportModelAdmin,admin.ModelAdmin):
+#     def delete (self, obj):
+#         return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
-    delete.allow_tags = True
-    delete.short_description ='Delete Product'
-    list_per_page = 10
-    search_fields = ("sku","productname")
-    list_filter = (CatagoryFilter,SubCatagoryFilter,
-        ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
-    )
-    list_display = ("sku","productname","category","subcatagory",'delete')
-    inlines = [
-        ProductInlineSize,
-    ]
+#     delete.allow_tags = True
+#     delete.short_description ='Delete Product'
+#     list_per_page = 10
+#     search_fields = ("sku","productname")
+#     list_filter = (CatagoryFilter,SubCatagoryFilter,
+#         ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
+#     )
+#     list_display = ("sku","productname","category","subcatagory",'delete')
+#     inlines = [
+#         ProductInlineSize,
+#     ]
 
 
 '''

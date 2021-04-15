@@ -240,61 +240,6 @@ class AddDomesticRawItem(models.Model):
 Domestic SIZE 
 '''
 
-class DomesticSizeProduct(models.Model):
-    sku = models.CharField(max_length=250, unique=True)
-    region =  models.ForeignKey(Region, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    subcatagory = models.ForeignKey(SubCategory, on_delete=models.CASCADE,blank=True, null=True)
-    subsubcategory = models.ForeignKey(SubSubCategory, on_delete=models.CASCADE,blank=True, null=True)
-    productname = models.CharField(max_length=250)
-    markup = models.IntegerField(verbose_name ='Mark Up Rate(in %)',default = 35,blank=True, null=True)
-    productcostc = models.FloatField(default = 0.494,verbose_name = "Product Cost C$",null=True,blank=True)
-    targetgrossprofit = models.IntegerField(default = 33,verbose_name = "Target Gross Profit (in %)",null=True,blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.sku
-
-
-    class Meta:
-        verbose_name = 'Domestic(Size) Product'
-        verbose_name_plural = 'Domestic(Size) Products'
-        db_table = 'tbl_domesticsizeproducts'
-        managed = True
-
-class AddDomesticSizeItem(models.Model):
-    product = models.ForeignKey(DomesticSizeProduct, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    price = models.FloatField(null=True,blank=True) #models.DecimalField(max_digits=5, decimal_places=2)
-    productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)#models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
-    baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)#models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
-
-    try:
-        def save(self, *args, **kwargs):
-            data = DomesticProduct.objects.all()
-            productcost = ""
-            targetgrossprofit = ""
-            for i in data:
-                if i.productcostc :
-                    productcost = i.productcostc
-                if i.targetgrossprofit:
-                    targetgrossprofit =  i.targetgrossprofit
-            self.productcost = round((self.price + productcost),2)
-            self.baseproductsalesprice = round(self.productcost / ( 1 - (targetgrossprofit/100) ),2)
-            super(AddDomesticItem, self).save(*args, **kwargs)
-    except Exception as e:
-        print(e)
-
-    class Meta:
-        verbose_name = 'Domestic Item'
-        verbose_name_plural = 'Domestic Items'
-        db_table = 'tbl_domesticsizeitems'
-        managed = True
-
-
-
-
 
 
 
