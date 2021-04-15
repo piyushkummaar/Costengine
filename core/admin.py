@@ -50,24 +50,26 @@ class ProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 '''
 DOMESTIC SIZE 
 '''
-# class ProductInlineSize(admin.TabularInline):
-#     model = AddDomesticSizeItem
+class ProductInlineSize(admin.TabularInline):
+    model = AddDomesticSizeItem
 
-# class ProductAdminSize(ImportExportModelAdmin,admin.ModelAdmin):
-#     def delete (self, obj):
-#         return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
 
-#     delete.allow_tags = True
-#     delete.short_description ='Delete Product'
-#     list_per_page = 10
-#     search_fields = ("sku","productname")
-#     list_filter = (CatagoryFilter,SubCatagoryFilter,
-#         ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
-#     )
-#     list_display = ("sku","productname","category","subcatagory",'delete')
-#     inlines = [
-#         ProductInlineSize,
-#     ]
+@admin.register(DomesticSizeProduct)
+class ProductAdminSize(ImportExportModelAdmin,admin.ModelAdmin):
+    def delete (self, obj):
+        return format_html('<input type="button" style="background-color:#ba2121;" value="Delete" onclick="location.href=\'{0}/delete/\'" />'.format(obj.pk))
+
+    delete.allow_tags = True
+    delete.short_description ='Delete Product'
+    list_per_page = 10
+    search_fields = ("sku","productname")
+    list_filter = (CatagoryFilter,SubCatagoryFilter,
+        ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
+    )
+    list_display = ("sku","productname","category","subcatagory",'delete')
+    inlines = [
+        ProductInlineSize,
+    ]
 
 
 '''
@@ -175,10 +177,10 @@ class AddImportsItemAdmin(ImportExportModelAdmin):
 
 
 admin.site.register(DomesticProduct,ProductAdmin)
-# admin.site.register(DomesticSizeProduct,ProductAdminSize)
 admin.site.register(DomesticProductRaw,ProductAdminDomesticRaw)
 admin.site.register(Region)
 admin.site.register(ImportsProduct,ProductAdminImports)
+admin.site.register(Size)
 admin.site.site_header = "Admin Dashboard"
 admin.site.site_title = "Admin Dashboard"
 admin.site.index_title = "Welcome to Admin Dashboard"
