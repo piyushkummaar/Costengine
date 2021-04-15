@@ -44,6 +44,16 @@ def home(request):
             options = ProductOption.objects.all().filter(sku__icontains=sku)
             addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
             return render(request, template_name,{'reg':reg,'domesticRawdata':domesticRawdata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
+        elif region == 'Domestic(Size)':
+            domesticSizedata = DomesticSizeProduct.objects.filter(sku=sku)
+            for i in domesticSizedata:
+                items = AddDomesticSizeItem.objects.all().filter(product_id=i.id)
+                test = len(items) - 1
+                th = AddDomesticSizeItem.objects.all().filter(product_id=i.id)[:test]
+                val = AddDomesticSizeItem.objects.all().filter(product_id=i.id)
+            options = ProductOption.objects.all().filter(sku__icontains=sku)
+            addoptions = AdditionalOption.objects.all().filter(sku__icontains=sku)
+            return render(request, template_name,{'reg':reg,'domesticSizedata':domesticSizedata,'test':th,'options':options,'addoptions':addoptions,'items':items,'val':val})
 
     context = {'reg':reg}
     return render(request,template_name,context)
@@ -80,6 +90,11 @@ def subcat(request):
             if not subcat:
                 datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
                 return JsonResponse({"data": datapass}, status=200)
+        elif region == 'Domestic(Size)':
+            subcat = SubCategory.objects.filter(region_id=5,category_id=subca)
+            if not subcat:
+                datapass = {"val1": "Not Found"+">>"+"nn"+">>"+subca} 
+                return JsonResponse({"data": datapass}, status=200)
         data = {}
         count = 1
         for i in subcat:
@@ -109,6 +124,11 @@ def productname(request):
                     prodata = DomesticProductRaw.objects.filter(category_id=catid)
                 else:
                     prodata = DomesticProductRaw.objects.filter(category_id=catid,subcatagory_id=subid)
+            elif region == 'Domestic(Size)':
+                if subid == 'nn':
+                    prodata = DomesticSizeProduct.objects.filter(category_id=catid)
+                else:
+                    prodata = DomesticSizeProduct.objects.filter(category_id=catid,subcatagory_id=subid)
             data = {}
             count = 1
             for i in prodata:

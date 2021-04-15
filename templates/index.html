@@ -57,6 +57,7 @@
                  </div>
              </div>
          </div>
+         <!-- ======================Domestic===================== -->
          <div id='table' class="container mt-5">
             {% if prodata%}
             {% for item in prodata %}
@@ -168,6 +169,129 @@
             {% endfor %}
             {% endif %}
          </div>
+
+<!-- ============================Domestic(Size)======================================== -->
+<div id='table' class="container mt-5">
+    {% if domesticSizedata%}
+    {% for item in domesticSizedata %}
+    <div class="text-center mx-auto">
+        <h1 style="text-align:center;">
+            <strong class="text-primary">{{ item.productname }}</strong>
+        </h1>
+    </div>
+    <div class="table-responsive table-striped shadow" id="tableaagyga" >
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Item Number</th>
+                    <th scope="col">{{ item.sku }}</th>
+                    {% for i in test %}
+                    <th scope="col"></th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <tr>
+                    <th scope="row">Quantities</th>
+                    {% for i in items %}
+                    <td> {{i.quantity}} </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th scope="row">Size</th>
+                    <td>
+                    {% for i in items %}
+                    <ol>
+                        {% for area in i.size.all %}<li>{{ area }}</li>{% endfor %}
+                    </ol>    
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th scope="row">Fixed Cost</th>
+                    {% for i in items %}
+                    <td> {{i.price}} </td>
+                    {% endfor %}
+                </tr>
+                    <tr style="background-color: rgb(142, 253, 253);" id='pcc'>
+                    <th scope="row">Product Cost C$</th>
+                    {% for i in items %}
+                    <td> {{i.productcost}} </td>
+                    {% endfor %}
+                </tr>
+                    <tr id='inp'>
+                    <th scope="row">Target Gross Profit(in%)</th>
+                    {% for i in items %}
+                    <td><input type="number" min="0" max="100" value="{{ item.targetgrossprofit }}" class="tgp" size="5"></td>
+                    {% endfor %}
+                    </tr>
+                    <tr style="background-color: rgb(142, 253, 253);" id='bcps'>
+                    <th scope="row">Base Product Sales Price C$</th>
+                    {% for i in items %}
+                    <td> {{i.baseproductsalesprice}} </td>
+                    {% endfor %}
+                </tr>
+                <tr style="background-color: yellow">
+                    <th>Options</th>
+                    {% for i in items %}
+                    <td>  </td>
+                    {% endfor %}
+            </tr>
+            <tr style="background-color: rgb(34, 247, 97);">
+                <th>
+                    Markup Rate(in %) :
+                    <input id="mrk" type="number" size="5" value="{{item.markup}}">
+                 </th>
+                {% for i in items %}
+                <td>  </td>
+                {% endfor %}
+            </tr>
+            {% for opt in options%}
+            {% if item.sku == opt.sku %}
+            <tr class="optval">
+               <th scope="row">{{opt}} : <input type="number" value="{{opt.optionvalue}}" class="optcls" style="width:60px"/>
+                   <select name="option"  width="3" class="ddlopt" id="opt{{opt.id}}">
+                       <option value="N">No</option>
+                       <option value="Y">Yes</option>
+                     </select>
+               </th>
+               {% for i in items %}
+                    <td class="tdopt"> 0 </td>
+               {% endfor %}
+           </tr>
+           {% endif %}
+     {% endfor %}
+           <tr id='tos'>
+               <th>Total Options :</th>
+               {% for i in items %}
+               <td> 0 </td>
+               {% endfor %}
+           </tr>
+           <tr style="background-color: greenyellow">
+               <th></th>
+               {% for i in items %}
+               <td>  </td>
+               {% endfor %}
+           </tr>
+           <tr id='tsp'>
+               <th>Total Sales Price Net/Unit C$ :</th>
+               {% for i in items %}
+               <td>  </td>
+               {% endfor %}
+           </tr>
+           <tr id='fly'>
+               <th>Flyer Price(C) :</th>
+               {% for i in items %}
+               <td>  </td>
+               {% endfor %}
+           </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+    {% endif %}
+ </div>
 
 <!-- =============================Domesctic (RAw)========================= -->
 <div id='table' class="container mt-5">
