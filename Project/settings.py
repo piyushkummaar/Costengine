@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'search_admin_autocomplete',
     'rangefilter',
     'import_export',
+    'widget_tweaks',
+    
 ]
 
 MIDDLEWARE = [

@@ -8,6 +8,7 @@ from search_admin_autocomplete.admin import SearchAutoCompleteAdmin
 #for import export functionality
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from django.forms import TextInput, Textarea
 
 
 class MyModelAdmin(SearchAutoCompleteAdmin):
@@ -39,10 +40,23 @@ class ProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname")
+    fieldsets = (
+        (None, {
+           'fields': ( ("region","category","subcatagory","subsubcategory"),
+            ("sku", "productname","markup","productcostc","targetgrossprofit")
+       )     
+    }),
+    )
     list_filter = (CatagoryFilter,SubCatagoryFilter,
         ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
     )
     list_display = ("sku","productname","category","subcatagory",'delete')
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size':'20'})},
+        models.IntegerField: {'widget': TextInput(attrs={'size':'10'})},
+        models.FloatField: {'widget': TextInput(attrs={'size':'10'})},
+        # models.ForeignKey: {'widget': TextInput(attrs={'size':'10'})}
+    }
     inlines = [
         ProductInline,
     ]
@@ -91,6 +105,22 @@ class ProductAdminDomesticRaw(ImportExportModelAdmin,admin.ModelAdmin):
     # ("markup","duty","exchage","broker"),"freight",("firstcost","printval"),("transfer","packing"),"overhead"]
     list_filter = (CatagoryFilter,SubCatagoryFilter,
         ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
+    )
+    formfield_overrides = {
+        # models.CharField: {'widget': TextInput(attrs={'size':'10'})},
+        models.IntegerField: {'widget': TextInput(attrs={'size':'10'})},
+        models.FloatField: {'widget': TextInput(attrs={'size':'10'})},
+        models.ForeignKey: {'widget': TextInput(attrs={'size':'10'})}
+    }
+    fieldsets = (
+        (None, {
+           'fields': (
+            ("sku", "productname","broker","region"),
+            ("category","firstcost","transfer","markup"),
+            ("subcatagory","duty","exchage","printval"),
+            ("subsubcategory","packing" ,"freight","overhead"),
+       )     
+    }),
     )
     list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [

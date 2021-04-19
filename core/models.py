@@ -277,7 +277,7 @@ class AddDomesticSizeItem(models.Model):
     product = models.ForeignKey(DomesticSizeProduct, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     price = models.FloatField(null=True,blank=True) #models.DecimalField(max_digits=5, decimal_places=2)
-    size = models.ManyToManyField(Size,null=True,blank=True)
+    size = models.ManyToManyField(Size,blank=True)
     productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)#models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
     baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)#models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
