@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'admin_auto_filters',
     'search_admin_autocomplete',
     'rangefilter',
-    'import_export',
-    'widget_tweaks',
+    'import_export'
     
 ]
 

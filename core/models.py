@@ -250,6 +250,17 @@ class Size(models.Model):
         db_table = 'tbl_size'
         managed = True
 
+class SizePrice(models.Model):
+    SizePrice =  models.CharField(max_length=250, blank=True, null=True)
+    def __str__(self):
+        return self.SizePrice
+    class Meta:
+        verbose_name = 'Price'
+        verbose_name_plural = 'Prices'
+        db_table = 'tbl_sizeprice'
+        managed = True
+        
+
 class DomesticSizeProduct(models.Model):
     sku = models.CharField(max_length=250, unique=True)
     region =  models.ForeignKey(Region, on_delete=models.CASCADE)
@@ -266,7 +277,6 @@ class DomesticSizeProduct(models.Model):
     def __str__(self):
         return self.sku
 
-
     class Meta:
         verbose_name = 'Domestic(Size) Product'
         verbose_name_plural = 'Domestic(Size) Products'
@@ -276,8 +286,8 @@ class DomesticSizeProduct(models.Model):
 class AddDomesticSizeItem(models.Model):
     product = models.ForeignKey(DomesticSizeProduct, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    price = models.FloatField(null=True,blank=True) #models.DecimalField(max_digits=5, decimal_places=2)
     size = models.ManyToManyField(Size,blank=True)
+    price = models.ManyToManyField(SizePrice,blank=True)
     productcost = models.FloatField(verbose_name = "Product Cost C$",null=True,blank=True)#models.DecimalField(verbose_name = "Product Cost C$",max_digits=5, decimal_places=2,null=True,blank=True)
     baseproductsalesprice = models.FloatField(verbose_name = "Base Product Sales Price C$",null=True,blank=True)#models.DecimalField(verbose_name = "Base Product Sales Price C$",max_digits=5, decimal_places=2,null=True,blank=True)
 
