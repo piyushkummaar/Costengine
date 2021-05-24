@@ -31,6 +31,12 @@ DOMESTIC
 '''
 class ProductInline(admin.TabularInline):
     model = AddDomesticItem
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size':'20'})},
+        models.IntegerField: {'widget': TextInput(attrs={'size':'10'})},
+        models.FloatField: {'widget': TextInput(attrs={'size':'10'})},
+        # models.ForeignKey: {'widget': TextInput(attrs={'size':'10'})}
+    }
 
 class ProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     def delete (self, obj):
@@ -42,8 +48,9 @@ class ProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     search_fields = ("sku","productname")
     fieldsets = (
         (None, {
-           'fields': ( ("region","category","subcatagory","subsubcategory"),
-            ("sku", "productname","markup","productcostc","targetgrossprofit")
+           'fields': ( ("sku","region","category"),
+           ("subcatagory","subsubcategory","markup"),
+            ("productname","productcostc","targetgrossprofit")
        )     
     }),
     )
@@ -66,7 +73,12 @@ DOMESTIC SIZE
 '''
 class ProductInlineSize(admin.TabularInline):
     model = AddDomesticSizeItem
-
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size':'20'})},
+        models.IntegerField: {'widget': TextInput(attrs={'size':'10'})},
+        models.FloatField: {'widget': TextInput(attrs={'size':'10'})},
+        # models.ForeignKey: {'widget': TextInput(attrs={'size':'10'})}
+    }
 
 @admin.register(DomesticSizeProduct)
 class ProductAdminSize(ImportExportModelAdmin,admin.ModelAdmin):
@@ -91,7 +103,11 @@ DOMESTIC RAW
 '''
 class ProductInlineDomesticRaw(admin.TabularInline):
     model = AddDomesticRawItem
-
+    formfield_overrides = {
+        models.IntegerField: {'widget': TextInput(attrs={'size':'10'})},
+        models.FloatField: {'widget': TextInput(attrs={'size':'8'})},
+        # models.ForeignKey: {'widget': TextInput(attrs={'size':'10'})}
+    }
 
 class ProductAdminDomesticRaw(ImportExportModelAdmin,admin.ModelAdmin):
     def delete (self, obj):
@@ -101,27 +117,40 @@ class ProductAdminDomesticRaw(ImportExportModelAdmin,admin.ModelAdmin):
     delete.short_description ='Delete Product'
     list_per_page = 10
     search_fields = ("sku","productname",)
-    # fields = [("sku","productname"),"region","category","subcatagory","subsubcategory",
-    # ("markup","duty","exchage","broker"),"freight",("firstcost","printval"),("transfer","packing"),"overhead"]
+    fieldsets = (
+        (None, {
+        'fields': (
+        ("sku","productname"),("region","category","subcatagory"),("subsubcategory","overhead","freight"),
+        ("markup","duty","exchage","broker"),("firstcost","printval","transfer","packing")
+        )
+        }),
+        ('Additives', {
+            'classes': ('collapse', 'open'),
+            'fields': ("sewing","fleece"),
+        }),  
+        )
+
+        # ("Additional",{
+        # 'classes': ('wide'),
+        #  'fields': (("sewing","fleece"),
+        # )
     list_filter = (CatagoryFilter,SubCatagoryFilter,
         ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
     )
     formfield_overrides = {
-        # models.CharField: {'widget': TextInput(attrs={'size':'10'})},
         models.IntegerField: {'widget': TextInput(attrs={'size':'10'})},
         models.FloatField: {'widget': TextInput(attrs={'size':'10'})},
-        models.ForeignKey: {'widget': TextInput(attrs={'size':'10'})}
     }
-    fieldsets = (
-        (None, {
-           'fields': (
-            ("sku", "productname","broker","region"),
-            ("category","firstcost","transfer","markup"),
-            ("subcatagory","duty","exchage","printval"),
-            ("subsubcategory","packing" ,"freight","overhead"),
-       )     
-    }),
-    )
+    # fieldsets = (
+    #     (None, {
+    #        'fields': (
+    #         ("sku", "productname","broker"),
+    #         ("region","category","subcatagory","subsubcategory"),
+    #         ("firstcost","duty","exchage","printval"),
+    #         ("transfer","markup","packing" ,"freight","overhead"),
+    #    )     
+    # }),
+    # )
     list_display = ("sku","productname","category","subcatagory",'delete')
     inlines = [
         ProductInlineDomesticRaw,

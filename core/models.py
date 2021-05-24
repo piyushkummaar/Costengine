@@ -133,6 +133,8 @@ class DomesticProductRaw(models.Model):
     packing = models.FloatField(verbose_name = "Packing",null=True,blank=True)
     freight = models.IntegerField(verbose_name ='Freight(in %)',default = 10,blank=True, null=True)
     overhead = models.FloatField(verbose_name = "Overhead(in %)",default = 33,null=True,blank=True)
+    sewing = models.FloatField(verbose_name = "sewing(in %)",null=True,blank=True)
+    fleece = models.FloatField(verbose_name = "fleece(in %)",null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
