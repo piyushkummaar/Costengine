@@ -30,6 +30,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # 'jet.dashboard',
+    # 'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,9 +42,9 @@ INSTALLED_APPS = [
     'admin_auto_filters',
     'search_admin_autocomplete',
     'rangefilter',
-    'import_export'
-    
+    'import_export',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
